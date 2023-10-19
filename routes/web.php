@@ -1,0 +1,63 @@
+<?php
+
+use App\Models\Client;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CarsController;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\ClientsController;
+
+/*
+|--------------------------------------------------------------------------
+| Web Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register web routes for your application. These
+| routes are loaded by the RouteServiceProvider within a group which
+| contains the "web" middleware group. Now create something great!
+|
+*/
+
+Route::group(['middleware'=>'auth'],function(){
+    //All Clients
+    Route::get('/', [ClientsController::class, 'index'])->name('home');
+
+    //Show single client
+    Route::get('/clients/view/{id}',[ClientsController::class,'show'])->name('single');
+
+    //Create new client (VIEW)
+    Route::get('/clients/create',[ClientsController::class,'create'])->name('create_client');
+
+    //Create new client (POST)
+    Route::post('/clients/create',[ClientsController::class,'store']);
+
+    //Edit client
+    Route::get('/clients/edit/{id}',[ClientsController::class,'edit'])->name('edit_client');
+
+    //Update client
+    Route::post('/clients/edit/{id}',[ClientsController::class,'update']);
+
+    //Delete client
+    Route::delete('/clients/{id}',[ClientsController::class,'destroy']);
+
+
+    //Create new Car (VIEW)
+    Route::get('/cars/create',[CarsController::class,'create'])->name('create_car');
+
+    //Create new client (POST)
+    Route::post('/cars/create',[CarsController::class,'store']);
+
+    //Edit car
+    Route::get('/cars/edit/{id}',[CarsController::class,'edit'])->name('edit_car');
+    
+    Route::post('/cars/edit/{id}',[CarsController::class,'update']);
+
+    Route::prefix('adminPanel')->name('adminPanel.')->group(function(){
+        Route::get('/',[AdminController::class,'index'])->name('index');
+    });
+    Route::post('get-car-info', [CarsController::class, 'get_carInfo']);
+});
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
