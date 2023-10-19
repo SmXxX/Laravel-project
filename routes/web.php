@@ -1,11 +1,14 @@
 <?php
 
+use App\Models\Car;
 use App\Models\Client;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CarsController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ClientsController;
+use App\Http\Controllers\RepairsController;
+use App\Http\Controllers\HomeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -51,6 +54,9 @@ Route::group(['middleware'=>'auth'],function(){
     Route::get('/cars/edit/{id}',[CarsController::class,'edit'])->name('edit_car');
     
     Route::post('/cars/edit/{id}',[CarsController::class,'update']);
+
+    //Create new repair (VIEW)
+    Route::get('/repairs/create',[RepairsController::class,'create'])->name('repairs');
 
     Route::prefix('adminPanel')->name('adminPanel.')->group(function(){
         Route::get('/',[AdminController::class,'index'])->name('index');

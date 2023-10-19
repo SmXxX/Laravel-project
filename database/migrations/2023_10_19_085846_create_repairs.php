@@ -18,7 +18,7 @@ class CreateRepairs extends Migration
             $table->integer('car_id');
             $table->string('repair');
             $table->string('part');
-            $table->string('kilometers');
+            $table->string('kilometers')->nullable();
             $table->string('work_cost');
             $table->string('part_cost');
             $table->timestamps();

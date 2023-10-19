@@ -72,6 +72,9 @@
     </x-card>  
     <h2 class="text-2xl font-bold uppercase text-center m-5">Ремонти</h2>
     <x-card class="mt-4 p-2 space-x-6">
+        <a href="{{route('repairs',$selectedCar->id)}}">
+            <i class="fa-solid fa-pencil"></i> Добавяне на ремонт
+        </a>
         
     </x-card>
     </div>
