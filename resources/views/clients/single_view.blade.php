@@ -38,24 +38,26 @@
                 @if(isset($car->image))
                 <img src={{$car->image}} class="w-48 mb-4" alt="">
                 @endif
-                <div class="grid lg:grid-cols-2 justify-center text-center lg:gap-20" id="car-info">
-                    <div>
-                        <div class="flex justify-center lg:text-xl mb-4"><span class="font-bold">Рег. номер - </span>{{$selectedCar->plate}}</div>
-                        <div class="flex justify-center lg:text-xl mb-4"><span class="font-bold">Рама - </span>{{$selectedCar->vin_num}}</div>
-                        <div class="flex justify-center lg:text-xl mb-4"><span class="font-bold">Година - </span>{{$selectedCar->year}}</div>
-                        <div class="flex justify-center lg:text-xl mb-4"><span class="font-bold">Марка - </span>{{$selectedCar->brand}}</div>
-                        <div class="flex justify-center lg:text-xl mb-4"><span class="font-bold">Модел - </span>{{$selectedCar->model}}</div>
+                <div class="flex flex-col justify-center text-center lg:gap-10" id="car-info">
+                    <div class="columns-2">
+                        <div>
+                            <div class="flex justify-center lg:text-xl mb-4"><span class="font-bold">Рег. номер - </span>{{$selectedCar->plate}}</div>
+                            <div class="flex justify-center lg:text-xl mb-4"><span class="font-bold">Рама - </span>{{$selectedCar->vin_num}}</div>
+                            <div class="flex justify-center lg:text-xl mb-4"><span class="font-bold">Година - </span>{{$selectedCar->year}}</div>
+                            <div class="flex justify-center lg:text-xl mb-4"><span class="font-bold">Марка - </span>{{$selectedCar->brand}}</div>
+                            <div class="flex justify-center lg:text-xl mb-4"><span class="font-bold">Модел - </span>{{$selectedCar->model}}</div>
+                        </div>
+                        <div>
+                            <div class="flex justify-center lg:text-xl mb-4"><span class="font-bold">Цвят - </span>{{$selectedCar->color}}</div>
+                            <div class="flex justify-center lg:text-xl mb-4"><span class="font-bold">Двигател - </span>{{$selectedCar->engine}}</div>
+                            <div class="flex justify-center lg:text-xl mb-4"><span class="font-bold">HP - </span>{{$selectedCar->hp}}</div>
+                            <div class="flex justify-center lg:text-xl mb-4"><span class="font-bold">KW - </span>{{$selectedCar->kw}}</div>
+                            <div class="flex justify-center lg:text-xl mb-4"><span class="font-bold">Гориво - </span>{{$selectedCar->fuel}}</div>
+                        </div>
                     </div>
                     <div>
-                        <div class="flex justify-center lg:text-xl mb-4"><span class="font-bold">Цвят - </span>{{$selectedCar->color}}</div>
-                        <div class="flex justify-center lg:text-xl mb-4"><span class="font-bold">Двигател - </span>{{$selectedCar->engine}}</div>
-                        <div class="flex justify-center lg:text-xl mb-4"><span class="font-bold">HP - </span>{{$selectedCar->hp}}</div>
-                        <div class="flex justify-center lg:text-xl mb-4"><span class="font-bold">KW - </span>{{$selectedCar->kw}}</div>
-                        <div class="flex justify-center lg:text-xl mb-4"><span class="font-bold">Гориво - </span>{{$selectedCar->fuel}}</div>
+                        <a href="{{route('edit_car',[$selectedCar->id, $client->id])}}" class="text-align-center bg-black text-white mb-4 py-2 px-5">Редактирай кола</a>
                     </div>
-                </div>
-                <div class="flex">
-                    <a href="{{route('edit_car',$selectedCar->id)}}" class="text-align-center bg-black text-white mb-4 py-2 px-5">Редактирай кола</a>
                 </div>
             </div>
         </div>
@@ -75,7 +77,7 @@
         <a href="{{route('repairs',$selectedCar->id)}}">
             <i class="fa-solid fa-pencil"></i> Добавяне на ремонт
         </a>
-        
+
     </x-card>
     </div>
     @push("scripts")
@@ -95,20 +97,27 @@
                         },
                         success: function(data){
                             var html = '';
-                            html = `<div>
-                                    <div class="flex justify-center text-xl mb-4"><span class="font-bold">Рег. номер - </span>${data.car.plate}</div>
-                                    <div class="flex justify-center text-xl mb-4"><span class="font-bold">Номер рама - </span>${data.car.vin_num}</div>
-                                    <div class="flex justify-center text-xl mb-4"><span class="font-bold">Година - </span>${data.car.year}</div>
-                                    <div class="flex justify-center text-xl mb-4"><span class="font-bold">Марка - </span>${data.car.brand}</div>
-                                    <div class="flex justify-center text-xl mb-4"><span class="font-bold">Модел - </span>${data.car.model}</div>
+                            html = `
+                                <div class="columns-2">
+                                    <div>
+                                        <div class="flex justify-center text-xl mb-4"><span class="font-bold">Рег. номер - </span>${data.car.plate}</div>
+                                        <div class="flex justify-center text-xl mb-4"><span class="font-bold">Номер рама - </span>${data.car.vin_num}</div>
+                                        <div class="flex justify-center text-xl mb-4"><span class="font-bold">Година - </span>${data.car.year}</div>
+                                        <div class="flex justify-center text-xl mb-4"><span class="font-bold">Марка - </span>${data.car.brand}</div>
+                                        <div class="flex justify-center text-xl mb-4"><span class="font-bold">Модел - </span>${data.car.model}</div>
+                                    </div>
+                                    <div>
+                                        <div class="flex justify-center text-xl mb-4"><span class="font-bold">Цвят - </span>${(data.car.color) ? data.car.color : 'Не е зададен'}</div>
+                                        <div class="flex justify-center text-xl mb-4"><span class="font-bold">Двигател - </span>${data.car.engine}</div>
+                                        <div class="flex justify-center text-xl mb-4"><span class="font-bold">HP - </span>${data.car.hp}</div>
+                                        <div class="flex justify-center text-xl mb-4"><span class="font-bold">KW - </span>${data.car.kw}</div>
+                                        <div class="flex justify-center text-xl mb-4"><span class="font-bold">Гориво - </span>${data.car.fuel}</div>
+                                    </div>
                                 </div>
                                 <div>
-                                    <div class="flex justify-center text-xl mb-4"><span class="font-bold">Цвят - </span>${(data.car.color) ? data.car.color : 'Не е зададен'}</div>
-                                    <div class="flex justify-center text-xl mb-4"><span class="font-bold">Двигател - </span>${data.car.engine}</div>
-                                    <div class="flex justify-center text-xl mb-4"><span class="font-bold">HP - </span>${data.car.hp}</div>
-                                    <div class="flex justify-center text-xl mb-4"><span class="font-bold">KW - </span>${data.car.kw}</div>
-                                    <div class="flex justify-center text-xl mb-4"><span class="font-bold">Гориво - </span>${data.car.fuel}</div>
-                                </div>`;
+                                    <a href="/cars/edit/${data.car.id}/${data.car.client_id}" class="text-align-center bg-black text-white mb-4 py-2 px-5">Редактирай кола</a>
+                                </div>
+                                `;
                                 $('#car-info').html(html);
                         },
                         error: function(xhr){
@@ -119,4 +128,11 @@
             });
         </script>
     @endpush
+    @if (session('message'))
+    <div x-data="{show:true}" x-init="setTimeout(() => show = false, 3000)" x-show="show" class="fixed top-0 left-1/2 transform -translate-x-1/2 bg-laravel text-white px-48 xs-px-12 py-3">
+        <p>
+            {{session('message')}}
+        </p>
+    </div>
+@endif
 </x-layout>

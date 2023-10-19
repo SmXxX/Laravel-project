@@ -10,7 +10,7 @@
     
                         <form method="POST" enctype="multipart/form-data">
                             @csrf
-                            <div class="flex w-full justify-center align-center text-center mb-6">
+                            {{-- <div class="flex w-full justify-center align-center text-center mb-6">
                                 <label for="client" class="inline-block text-lg mb-2"></label>
                                 <select class="mb-4 bg-transparent text-black outline-none text-center" name="client_id" id="client">
                                     <option value="">Избери клиент</option>
@@ -25,7 +25,7 @@
                                 @error('client_id')
                                     <p class="text-red-500 text-xs mt-1">{{$message}}</p>
                                 @enderror
-                            </div>
+                            </div> --}}
                             <div class="mb-6">
                                 <label
                                     for="plate"
@@ -197,7 +197,7 @@
                                     Редактирай
                                 </button>
     
-                                <a href="/" class="text-black ml-4"> Назад </a>
+                                <a href="{{ URL::previous() }}" class="text-black ml-4"> Назад </a>
                             </div>
                         </form>
                     </x-card>

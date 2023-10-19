@@ -13,11 +13,11 @@ class Repair extends Model
 
     protected $fillable = [
         'car_id',
-            'repair',
-            'part',
-            'kilometers',
-            'work_cost',
-            'part_cost',
+        'repair',
+        'part',
+        'kilometers',
+        'work_cost',
+        'part_cost',
     ];
 
     public function cars(){

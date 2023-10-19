@@ -51,9 +51,9 @@ Route::group(['middleware'=>'auth'],function(){
     Route::post('/cars/create',[CarsController::class,'store']);
 
     //Edit car
-    Route::get('/cars/edit/{id}',[CarsController::class,'edit'])->name('edit_car');
+    Route::get('/cars/edit/{id}/{cId}',[CarsController::class,'edit'])->name('edit_car');
     
-    Route::post('/cars/edit/{id}',[CarsController::class,'update']);
+    Route::post('/cars/edit/{id}/{cId}',[CarsController::class,'update']);
 
     //Create new repair (VIEW)
     Route::get('/repairs/create',[RepairsController::class,'create'])->name('repairs');

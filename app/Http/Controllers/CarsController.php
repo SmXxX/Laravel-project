@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Car;
 use App\Models\Client;
+use App\Models\Repair;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -66,18 +67,15 @@ class CarsController extends Controller
         return redirect()->route('/')->with('message','Колата е добавена успешно!');
     }
 
-    public function edit(Request $request, $id){
-        $clients = Client::all();
-        $getCar = Car::where('client_id',2)->where('id',$id)->first();
+    public function edit($id, $cId){
+        $getCar = Car::where('client_id',$cId)->where('id',$id)->first();
         return view('cars.edit',[
            'car'=>$getCar,
-           'clients'=>$clients
         ]);
     }
 
-    public function update(Request $request, $id){
+    public function update(Request $request, $id, $cId){
         $validator = Validator::make($request->all(), [
-            'client_id'=>'required',
             'plate'=>'required',
             'brand'=>'required',
             'model'=>'required',
@@ -88,7 +86,6 @@ class CarsController extends Controller
             'fuel'=>'required',
             'vin_num'=>'required',
         ], [
-            'client_id.required'=>'Избери клиент!',
             'plate.required'=>'Номер на колата е задължителен!',
             'brand.required'=>'Марката е задължителна!',
             'model.required'=>'Модела е задължителен!',
@@ -103,8 +100,8 @@ class CarsController extends Controller
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
-        Car::where('id',$id)->update([
-            'client_id'=>$request->client_id,
+        Car::where('id',$id)->where('client_id',$cId)->update([
+            'client_id'=>$cId,
             'plate'=>$request->plate,
             'brand'=>$request->brand,
             'model'=>$request->model,
@@ -115,13 +112,14 @@ class CarsController extends Controller
             'fuel'=>$request->fuel,
             'vin_num'=>$request->vin_num,
         ]);
-        return redirect()->route('single',$request->client_id)->with('message','Колата е редактирана успешно!');
+        return redirect()->route('single',$cId)->with('message','Колата е редактирана успешно!');
     }
 
     public function get_carInfo(Request $request){
         $carId = $request->selectedCar;
         $clientId = $request->clientId;
         $car = Car::where('id',$carId)->where('client_id',$clientId)->first();
+        // $repair = Repair::where('car_id',$carId)->first();
         if ($car){
             return response()->json(['status' => true, 'car'=>$car], 200);
         }else{

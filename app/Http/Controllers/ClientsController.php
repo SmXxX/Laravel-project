@@ -93,7 +93,7 @@ class ClientsController extends Controller
             'name'=>$request->name,
             'phone_number'=>$request->phone_number,
         ]);
-        return redirect()->route('single',$id)->with('message','Клиентът е редактиран успешно!');
+        return redirect('/')->with('message','Клиентът е редактиран успешно!');
     }
 
     public function destroy($id){
