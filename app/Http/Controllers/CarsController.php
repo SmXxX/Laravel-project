@@ -64,7 +64,7 @@ class CarsController extends Controller
             'vin_num'=>$request->vin_num,
         ]);
 
-        return redirect()->route('/')->with('message','Колата е добавена успешно!');
+        return redirect('/')->with('message','Колата е добавена успешно!');
     }
 
     public function edit($id, $cId){

@@ -28,7 +28,7 @@
         <title>muci7oService</title>
     </head>
 
-    <body class="mb-48 mx-24">
+    <body class="mb-48 lg:mx-24">
         <nav class="flex justify-between items-center mb-4">
             <a href="/"><img width="150" height="150" src="/images/logo.jpeg" alt=""
                     class="logo" /></a>

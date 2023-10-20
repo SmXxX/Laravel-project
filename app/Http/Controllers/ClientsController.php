@@ -58,7 +58,7 @@ class ClientsController extends Controller
             'phone_number'=>$request->phone_number,
         ]);
 
-        return redirect()->route('/')->with('message','Клиентът е създаден успешно!');
+        return redirect('/')->with('message','Клиентът е създаден успешно!');
     }
 
     public function edit($id){

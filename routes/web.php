@@ -58,10 +58,10 @@ Route::group(['middleware'=>'auth'],function(){
     //Create new repair (VIEW)
     Route::get('/repairs/create',[RepairsController::class,'create'])->name('repairs');
 
-    Route::prefix('adminPanel')->name('adminPanel.')->group(function(){
-        Route::get('/',[AdminController::class,'index'])->name('index');
-    });
     Route::post('get-car-info', [CarsController::class, 'get_carInfo']);
+});
+Route::prefix('adminPanel')->name('adminPanel.')->group(function(){
+    Route::get('/',[AdminController::class,'index'])->name('index');
 });
 
 Auth::routes();

@@ -17,6 +17,6 @@
     </div>
         
         <div class="mt-6 p-4">
-            {{-- {{$clients->links()}} --}}
+            {{$clients->links()}}
         </div>
 </x-layout>

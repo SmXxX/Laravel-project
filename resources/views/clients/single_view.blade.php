@@ -62,22 +62,35 @@
             </div>
         </div>
     </x-card>
-    <x-card class="mt-4 p-2 flex flex-col lg:flex-row text-center gap-5 space-x-6">
-        <a href="{{route('edit_client',$client->id)}}">
-            <i class="fa-solid fa-pencil"></i> Редактирай клиент
-        </a>
-        <form method="POST" action="/clients/{{$client->id}}">
-            @csrf
-            @method('DELETE')
-            <button class="text-red-500" onclick="return confirm('Сигурен ли си ?')"><i class="fa-solid fa-trash"></i> Изтрий клиент</button>
-        </form>
-    </x-card>  
     <h2 class="text-2xl font-bold uppercase text-center m-5">Ремонти</h2>
     <x-card class="mt-4 p-2 space-x-6">
         <a href="{{route('repairs',$selectedCar->id)}}">
             <i class="fa-solid fa-pencil"></i> Добавяне на ремонт
+            {{-- <table>
+                <thead>
+                    <tr>
+                        <th>Car ID</th>
+                        <th>Repair</th>
+                        <th>Part</th>
+                        <th>Kilometers</th>
+                        <th>Work Cost</th>
+                        <th>Part Cost</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($repairs as $repair)
+                        <tr>
+                            <td>{{ $repair->car_id }}</td>
+                            <td>{{ $repair->repair }}</td>
+                            <td>{{ $repair->part }}</td>
+                            <td>{{ $repair->kilometers }}</td>
+                            <td>{{ $repair->work_cost }}</td>
+                            <td>{{ $repair->part_cost }}</td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table> --}}
         </a>
-
     </x-card>
     </div>
     @push("scripts")
@@ -129,10 +142,10 @@
         </script>
     @endpush
     @if (session('message'))
-    <div x-data="{show:true}" x-init="setTimeout(() => show = false, 3000)" x-show="show" class="fixed top-0 left-1/2 transform -translate-x-1/2 bg-laravel text-white px-48 xs-px-12 py-3">
-        <p>
-            {{session('message')}}
-        </p>
-    </div>
-@endif
+        <div x-data="{show:true}" x-init="setTimeout(() => show = false, 3000)" x-show="show" class="fixed top-0 left-1/2 transform -translate-x-1/2 bg-laravel text-white px-48 xs-px-12 py-3">
+            <p>
+                {{session('message')}}
+            </p>
+        </div>
+    @endif
 </x-layout>
