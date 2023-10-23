@@ -1,5 +1,5 @@
 <x-layout>
-    <x-card class="p-10 max-w-lg mx-3 mt-10">
+    <x-card class="p-10 max-w-lg mx-auto mt-10">
         <header class="text-center">
             <h2 class="text-2xl font-bold uppercase mb-6">
                 Редактиране на кола
