@@ -12,7 +12,7 @@ class ClientsController extends Controller
      // show all clients
      public function index(){
         return view('clients.index', [
-            'clients' => Client::filter(request(['search']))->paginate(6)
+            'clients' => Client::orderBy('created_at', 'desc')->filter(request(['search']))->paginate(6)
         ]);
     }
 

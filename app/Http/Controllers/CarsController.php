@@ -32,7 +32,7 @@ class CarsController extends Controller
             'year'=>'required',
             'engine'=>'required',
             'hp'=>'required',
-            'kw'=>'required',
+            'kw',
             'fuel'=>'required',
             'vin_num'=>'required',
         ], [
@@ -43,7 +43,6 @@ class CarsController extends Controller
             'year.required'=>'Година на производство е задължителна!',
             'engine.required'=>'Литраж на двигател е задължителен!',
             'hp.required'=>'Мощност на двигателя е задължителен!',
-            'kw.required'=>'Мощност в KW е задължително!',
             'fuel.required'=>'Вид гориво е завължително!',
             'vin_num.required'=>'Номер на рама е задължително!',
         ]);
@@ -59,9 +58,10 @@ class CarsController extends Controller
             'year'=>$request->year,
             'engine'=>$request->engine,
             'hp'=>$request->hp,
-            'kw'=>$request->kw,
+            'kw'=> $request->hp*0.7457,
             'fuel'=>$request->fuel,
             'vin_num'=>$request->vin_num,
+            'additional_info'=> $request->additional_info,
         ]);
 
         return redirect('/')->with('message','Колата е добавена успешно!');
@@ -82,7 +82,6 @@ class CarsController extends Controller
             'year'=>'required',
             'engine'=>'required',
             'hp'=>'required',
-            'kw'=>'required',
             'fuel'=>'required',
             'vin_num'=>'required',
         ], [
@@ -92,7 +91,6 @@ class CarsController extends Controller
             'year.required'=>'Година на производство е задължителна!',
             'engine.required'=>'Литраж на двигател е задължителен!',
             'hp.required'=>'Мощност на двигателя е задължителен!',
-            'kw.required'=>'Мощност в KW е задължително!',
             'fuel.required'=>'Вид гориво е завължително!',
             'vin_num.required'=>'Номер на рама е задължително!',
         ]);
@@ -108,7 +106,7 @@ class CarsController extends Controller
             'year'=>$request->year,
             'engine'=>$request->engine,
             'hp'=>$request->hp,
-            'kw'=>$request->kw,
+            'kw'=>$request->hp*0.7457,
             'fuel'=>$request->fuel,
             'vin_num'=>$request->vin_num,
         ]);

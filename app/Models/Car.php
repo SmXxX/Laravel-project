@@ -23,10 +23,11 @@ class Car extends Model
         'kw',
         'fuel',
         'vin_num',
+        'additional_info'
     ];
 
     //Relationship with client
      public function client(){
-         return $this->hasMany(Client::class,'client_id');
+         return $this->hasMany(Client::class);
      }
 }

@@ -1,5 +1,5 @@
 <x-layout>
-    <x-card class="p-10 max-w-lg mx-auto mt-24">
+    <x-card class="p-10 max-w-lg mx-auto mt-24 bg-gray-50 border border-gray-200 ">
         <header class="text-center">
             <h2 class="text-2xl font-bold uppercase mb-6">
                 Създаване на кола
@@ -137,8 +137,8 @@
                     <p class="text-red-500 text-xs mt-1">{{$message}}</p>
                 @enderror
             </div>
-            <div class="mb-6">
-                <label for="hp" class="inline-block text-lg mb-2"
+            <div class="mb-6 hidden">
+                <label for="kw" class="inline-block text-lg mb-2"
                     >Мощност в kW</label
                 >
                 <input
@@ -186,8 +186,14 @@
                 @enderror
             </div>
             <div class="mb-6">
+                <label for="additional_info" class="inline-block text-lg mb-2"
+                    >Бележка</label
+                >
+                <textarea id="additional_info" rows="4" cols="50" class="border border-gray-200 rounded p-2 w-full" placeholder="Бележка за колата" name="additional_info" value="{{old('additional_info')}}"></textarea>
+            </div>
+            <div class="mb-6">
                 <button
-                    class="bg-laravel text-white rounded py-2 px-4 hover:bg-black"
+                    class="bg-[#007CCA] text-white rounded py-2 px-4 hover:bg-black"
                 >
                     Създай
                 </button>

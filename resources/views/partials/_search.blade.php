@@ -1,8 +1,8 @@
 <form action="/">
-    <div class="relative border-2 border-gray-100 m-4 rounded-lg">
+    <div class="search-box relative border-2 m-4 rounded-lg">
         <div class="absolute top-4 left-3">
             <i
-                class="fa fa-search text-gray-400 z-20 hover:text-gray-500"
+                class="fa fa-search z-20"
             ></i>
         </div>
         <input
@@ -12,10 +12,7 @@
             placeholder="Търсене на клиент..."
         />
         <div class="absolute top-2 right-2">
-            <button
-                type="submit"
-                class="h-10 w-20 text-white rounded-lg bg-red-500 hover:bg-red-600"
-            >
+            <button type="submit" class="button-search w-20 h-10 text-white">
                 Търсене
             </button>
         </div>

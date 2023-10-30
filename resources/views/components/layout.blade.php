@@ -5,7 +5,11 @@
         <meta charset="UTF-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link href="{{ asset('css/style.css') }}" rel="stylesheet">
         <link rel="icon" type="image/x-icon" href="/images/logo.jpeg">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Sofia+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
             integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
             crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -19,7 +23,7 @@
                 theme: {
                     extend: {
                         colors: {
-                            laravel: "#ef3b2d",
+                            customColor: "#FF9800",
                         },
                     },
                 },
@@ -28,46 +32,47 @@
         <title>muci7oService</title>
     </head>
 
-    <body class="mb-48 lg:mx-24">
-        <nav class="flex justify-between items-center mb-4">
-            <a href="/"><img width="150" height="150" src="/images/logo.jpeg" alt=""
-                    class="logo" /></a>
-            <ul class="flex justify-end text-right space-x-6 mr-6 text-lg">
+    <body class="mb-48" style="font-family:'Sofia Sans',sans-serif">
+        <header class="w-full">
+            <nav class="flex justify-between items-center mb-4 mx-2 lg:mx-48">
+                <a href="/"><img width="100" height="100" src="/images/logo.jpeg" alt=""
+                        class="logo my-2" /></a>
+                <ul class="flex justify-end text-right space-x-6 mr-6 text-lg">
 
-                @auth
-                    <li>
-                        <span class="font-bold uppercase">
-                            Здравей, {{ auth()->user()->name }}
-                        </span>
-                    </li>
-                    <li>
-                        <form class="inline" method="POST" action="/logout">
-                            @csrf
-                            <button type="submit">
-                                <i class="fa-solid fa-door-closed"></i> Изход
-                            </button>
-                        </form>
-                    </li>
-                @else
-                    <li>
-                        <a href="/register" class="hover:text-laravel"><i class="fa-solid fa-user-plus"></i> Нов</a>
-                    </li>
-                    <li>
-                        <a href="/login" class="hover:text-laravel"><i class="fa-solid fa-arrow-right-to-bracket"></i>
-                            Вход</a>
-                    </li>
-                @endauth
-            </ul>
-        </nav>
-        <main>
+                    @auth
+                        <li>
+                                <i class="fa-solid fa-user "></i> 
+                                Здравей, <span class="font-bold">{{ auth()->user()->name }}</span>
+                        </li>
+                        <li>
+                            <form class="inline" method="POST" action="/logout">
+                                @csrf
+                                <button type="submit">
+                                    <i class="fa-solid fa-door-closed"></i> Изход
+                                </button>
+                            </form>
+                        </li>
+                    @else
+                        <li>
+                            <a href="/register" class="hover:text-laravel"><i class="fa-solid fa-user-plus"></i> Нов</a>
+                        </li>
+                        <li>
+                            <a href="/login" class="hover:text-laravel"><i class="fa-solid fa-arrow-right-to-bracket"></i>
+                                Вход</a>
+                        </li>
+                    @endauth
+                </ul>
+            </nav>
+        </header>
+        <main class="lg:mx-48">
             {{ $slot }}
         </main>
-        <footer class="fixed bottom-0 left-0 w-full flex flex-col lg:flex-row items-center justify-center font-bold bg-laravel text-white lg:h-24 mt-24 opacity-90 lg:gap-10">
+        <footer class="fixed bottom-0 left-0 w-full flex flex-row items-center justify-center font-bold text-white lg:h-24 mt-24 opacity-90 gap-2 lg:gap-10">
             <a href="{{ route('create_client') }}"
-                class="text-align-center bg-black text-white my-2 lg:my-4 py-2 px-5">
+                class="create-new-client text-align-center text-white my-2 lg:my-4 py-2 px-5">
                 Добави нов клиент
             </a>
-            <a href="{{route('create_car')}}" class="text-align-center bg-black text-white my-2 lg:my-4 py-2 px-5">
+            <a href="{{route('create_car')}}" class="create-new-car text-align-center text-black my-2 lg:my-4 py-2 px-5">
                 Добави нова кола
             </a>
         </footer>

@@ -24,9 +24,10 @@ class CreateCars extends Migration
             $table->string('color')->nullable();
             $table->string('engine');
             $table->integer('hp');
-            $table->integer('kw');
+            $table->integer('kw')->length(10)->default(0);
             $table->string('fuel');
             $table->string('vin_num');
+            $table->string('additional_info')->nullable();
             $table->timestamps();
         });
     }

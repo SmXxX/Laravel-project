@@ -1,5 +1,5 @@
 <x-layout>
-    <x-card class="p-10 max-w-lg mx-auto mt-24">
+    <x-card class="p-10 max-w-lg mx-auto mt-24 bg-gray-50 border border-gray-200 ">
         <header class="text-center">
             <h2 class="text-2xl font-bold uppercase mb-6">
                 Добавяне на ремонт
@@ -90,7 +90,7 @@
 
             <div class="mb-6">
                 <button
-                    class="bg-laravel text-white rounded py-2 px-4 hover:bg-black"
+                    class="bg-[#007CCA] text-white rounded py-2 px-4 hover:bg-black"
                 >
                     Създай
                 </button>
