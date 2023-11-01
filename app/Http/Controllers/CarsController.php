@@ -117,7 +117,6 @@ class CarsController extends Controller
         $carId = $request->selectedCar;
         $clientId = $request->clientId;
         $car = Car::where('id',$carId)->where('client_id',$clientId)->first();
-        // $repair = Repair::where('car_id',$carId)->first();
         if ($car){
             return response()->json(['status' => true, 'car'=>$car], 200);
         }else{

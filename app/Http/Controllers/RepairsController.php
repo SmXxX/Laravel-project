@@ -2,21 +2,22 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Car;
 use App\Models\Repair;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
 class RepairsController extends Controller
 {
-    // show all cars
+    // show all repairs
     public function index(){
         return view('repairs.index');
     }
 
     public function create(){
-        $clients = Repair::all();
+        $cars = Car::all();
         return view('repairs.create',[
-            'repairs'=>$clients,
+            'cars'=>$cars,
         ]);
     }
 
@@ -51,6 +52,16 @@ class RepairsController extends Controller
             'part_cost'=>$request->part_cost,
         ]);
 
-        return redirect()->back()->with('message','Ремонта е добавен успешно!');
+        return redirect()->route('single')->with('message','Ремонтът е създаден успешно!');
+    }
+    public function getRepairInfo(Request $request){
+        $carId = $request->selectedCar;
+        $clientId = $request->clientId;
+        $repair = Repair::where('id',$carId)->where('client_id',$clientId)->get();
+        if ($repair){
+            return response()->json(['status' => true, 'repair'=>$repair], 200);
+        }else{
+            return response()->json(['status' => false, 'message' => 'Not Found!'], 404);
+        }
     }
 }

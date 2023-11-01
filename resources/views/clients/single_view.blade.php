@@ -110,34 +110,33 @@
         </div>
     </x-card>
     <h2 class="text-2xl font-bold uppercase text-center m-5">Ремонти</h2>
-    <x-card class="mt-4 p-2 space-x-6">
+    <x-card class="mt-4 p-2 space-x-6 text-right">
         <a href="{{route('repairs',$selectedCar->id)}}">
             <i class="fa-solid fa-pencil"></i> Добавяне на ремонт
-            {{-- <table>
-                <thead>
-                    <tr>
-                        <th>Car ID</th>
-                        <th>Repair</th>
-                        <th>Part</th>
-                        <th>Kilometers</th>
-                        <th>Work Cost</th>
-                        <th>Part Cost</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($repairs as $repair)
-                        <tr>
-                            <td>{{ $repair->car_id }}</td>
-                            <td>{{ $repair->repair }}</td>
-                            <td>{{ $repair->part }}</td>
-                            <td>{{ $repair->kilometers }}</td>
-                            <td>{{ $repair->work_cost }}</td>
-                            <td>{{ $repair->part_cost }}</td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table> --}}
         </a>
+        <table class="w-full mt-12" id="car-repairs">
+            <thead>
+                <tr class="text-center">
+                    <th>Извършен ремонт</th>
+                    <th>Сменена част</th>
+                    <th>Километри</th>
+                    <th>Цена труд</th>
+                    <th>Цена части</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($repairs as $repair)
+                    <tr class="text-center">
+                        {{-- <td>{{$repair->car_id }}</td> --}}
+                        <td>{{$repair->repair }}</td>
+                        <td>{{$repair->part }}</td>
+                        <td>{{$repair->kilometers }}</td>
+                        <td>{{$repair->work_cost }}</td>
+                        <td>{{$repair->part_cost }}</td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table> 
     </x-card>
     </div>
     @push("scripts")
@@ -145,18 +144,21 @@
             jQuery(document).ready(function($){
                 var csrf_token = "{{ csrf_token() }}";
                 var clientId = " {{$client->id}} ";
+                var repairId = " {{$repair->id}} "
                 $('#carSelect').on('change',function(){
                     var selectedCar = $(this).val();
                     $.ajax({
-                        url: '/get-car-info',
+                        url: '/get-car-info','/get-repair-info',
                         type: "POST",
                         data: {
                             _token: csrf_token,
                             selectedCar,
-                            clientId
+                            clientId,
+                            repairId
                         },
                         success: function(data){
                             var html = '';
+                            var htmlRepair = '';
                             html = `
                                 <div class="flex flex-col" id="car-info">
                                     <div class="flex flex-row lg:justify-between mt-5 md:mt-0">
@@ -215,6 +217,38 @@
                                 </div>    
                                 `;
                                 $('#car-info').html(html);
+
+                                htmlRepair = `
+                                <table class="w-full mt-12" id="car-repairs">
+                                    <thead>
+                                        <tr class="text-center">
+                                            <th>Извършен ремонт</th>
+                                            <th>Сменена част</th>
+                                            <th>Километри</th>
+                                            <th>Цена труд</th>
+                                            <th>Цена части</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                `;
+
+                            data.repair.forEach(function(repair) {
+                                htmlRepair += `
+                                    <tr class="text-center">
+                                        <td>${repair.repair}</td>
+                                        <td>${repair.part}</td>
+                                        <td>${repair.kilometers}</td>
+                                        <td>${repair.work_cost}</td>
+                                        <td>${repair.part_cost}</td>
+                                    </tr>
+                                `;
+                            });
+
+                            htmlRepair += `
+                                    </tbody>
+                                </table>
+                            `;
+                            $('#car-repairs').html(htmlRepair);
                         },
                         error: function(xhr){
                             console.log('Error: ', xhr);

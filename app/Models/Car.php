@@ -30,4 +30,9 @@ class Car extends Model
      public function client(){
          return $this->hasMany(Client::class);
      }
+
+     //Relationship with repair
+     public function repair(){
+        return $this->hasMany(Repair::class);
+    }
 }

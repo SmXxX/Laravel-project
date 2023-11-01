@@ -8,6 +8,19 @@
 
         <form method="POST" enctype="multipart/form-data">
             @csrf
+            <div class="flex w-full justify-center align-center text-center mb-6">
+                <label for="car" class="inline-block text-lg mb-2"></label>
+
+                <select class="mb-4 bg-transparent text-black outline-none text-center" name="car_id" id="car">
+                    <option value="">Избери колa</option>
+                    @foreach ($cars as $car)
+                    <option class="bg-transparent text-black outline-none text-center"  value="{{$car->id}}">{{$car->brand}}</option>
+                    @endforeach
+                </select>
+                @error('car_id')
+                    <p class="text-red-500 text-xs mt-1">{{$message}}</p>
+                @enderror
+            </div>
             <div class="mb-6">
                 <label
                     for="repair"
@@ -90,12 +103,12 @@
 
             <div class="mb-6">
                 <button
-                    class="bg-[#007CCA] text-white rounded py-2 px-4 hover:bg-black"
+                    class="bg-[#007CCA] text-white rounded py-2 px-4"
                 >
                     Създай
                 </button>
 
-                <a href="{{ URL::previous() }}" class="text-black ml-4"> Назад </a>
+                <a href="/" class="text-black ml-4"> Назад </a>
             </div>
         </form>
     </x-card>

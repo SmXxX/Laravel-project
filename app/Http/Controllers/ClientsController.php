@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Car;
 use App\Models\Client;
+use App\Models\Repair;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -21,10 +22,12 @@ class ClientsController extends Controller
         $client = Client::where('id', $id)->first();
         $cars = Car::where('client_id', $client->id)->orderBy('id','asc')->get();
         $selectedCar = Car::where('client_id', $client->id)->orderBy('id','asc')->first();
+        $repairs = Repair::where('car_id', $selectedCar->id)->get();
         return view('clients.single_view',[
-            'client'=>$client,
-            'cars'=>$cars,
-            'selectedCar'=>$selectedCar
+            'client' => $client,
+            'cars' => $cars,
+            'selectedCar' => $selectedCar,
+            'repairs' => $repairs
         ]);
     }
 

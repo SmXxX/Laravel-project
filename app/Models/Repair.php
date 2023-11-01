@@ -20,7 +20,8 @@ class Repair extends Model
         'part_cost',
     ];
 
-    public function cars(){
-        return $this->hasMany(Car::class,'car_id');
+    //Relationship with client
+    public function car(){
+        return $this->hasMany(Car::class);
     }
 }

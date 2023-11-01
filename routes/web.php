@@ -54,11 +54,16 @@ Route::group(['middleware'=>'auth'],function(){
     Route::get('/cars/edit/{id}/{cId}',[CarsController::class,'edit'])->name('edit_car');
     
     Route::post('/cars/edit/{id}/{cId}',[CarsController::class,'update']);
-
+    
     //Create new repair (VIEW)
     Route::get('/repairs/create',[RepairsController::class,'create'])->name('repairs');
 
+    //Create new client (POST)
+    Route::post('/repairs/create',[RepairsController::class,'store']);
+
     Route::post('get-car-info', [CarsController::class, 'get_carInfo']);
+
+    Route::post('get-repair-info',[RepairsController::class,'getRepairInfo']);
 });
 Route::prefix('adminPanel')->name('adminPanel.')->group(function(){
     Route::get('/',[AdminController::class,'index'])->name('index');
