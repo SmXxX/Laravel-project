@@ -44,7 +44,6 @@
             </div>
             <div class="mb-6">
                 <label for="work_cost" class="inline-block text-lg mb-2">Цена труд</label>
-                <div>test</div>
                 <input type="text" id="work_cost" class="border border-gray-200 rounded p-2 w-full" name="work_cost" placeholder="Цена труд" />
                 @error('work_cost')
                 <p class="text-red-500 text-xs mt-1">{{$message}}</p>
