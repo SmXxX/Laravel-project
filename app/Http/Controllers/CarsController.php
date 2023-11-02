@@ -113,14 +113,14 @@ class CarsController extends Controller
         return redirect()->route('single',$cId)->with('message','Колата е редактирана успешно!');
     }
 
-    public function get_carInfo(Request $request){
-        $carId = $request->selectedCar;
-        $clientId = $request->clientId;
-        $car = Car::where('id',$carId)->where('client_id',$clientId)->first();
-        if ($car){
-            return response()->json(['status' => true, 'car'=>$car], 200);
-        }else{
-            return response()->json(['status' => false, 'message' => 'Not Found!'], 404);
-        }
-    }
+    // public function get_carInfo(Request $request){
+    //     $carId = $request->selectedCar;
+    //     $clientId = $request->clientId;
+    //     $car = Car::where('id',$carId)->where('client_id',$clientId)->first();
+    //     if ($car){
+    //         return response()->json(['status' => true, 'car'=>$car], 200);
+    //     }else{
+    //         return response()->json(['status' => false, 'message' => 'Not Found!'], 404);
+    //     }
+    // }
 }

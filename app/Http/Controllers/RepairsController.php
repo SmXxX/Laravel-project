@@ -22,7 +22,7 @@ class RepairsController extends Controller
     }
 
     public function store(Request $request){
-        // dd($request->all());
+        //  dd($request->all());
         $validator = Validator::make($request->all(), [
             'car_id'=>'required',
             'repair'=>'required',
@@ -56,8 +56,8 @@ class RepairsController extends Controller
     }
     public function getRepairInfo(Request $request){
         $carId = $request->selectedCar;
-        $clientId = $request->clientId;
-        $repair = Repair::where('id',$carId)->where('client_id',$clientId)->get();
+        // $clientId = $request->clientId;
+        $repair = Repair::where('car_id',$carId)->get();
         if ($repair){
             return response()->json(['status' => true, 'repair'=>$repair], 200);
         }else{

@@ -148,7 +148,7 @@
                 $('#carSelect').on('change',function(){
                     var selectedCar = $(this).val();
                     $.ajax({
-                        url: '/get-car-info','/get-repair-info',
+                        url: '/get-car-info-and-repairs',
                         type: "POST",
                         data: {
                             _token: csrf_token,
@@ -199,7 +199,7 @@
                                             </div>
                                             <div class="grid grid-cols-2 p-2">
                                                 <div class="font-semibold">KW</div>
-                                                <div>${data.car.hp * 0.7457}</div>
+                                                <div>${parseInt(data.car.hp * 0.7457)}</div>
                                             </div>
                                             <div class="grid grid-cols-2 colored-bg p-2">
                                                 <div class="font-semibold">Гориво</div>
@@ -231,7 +231,6 @@
                                     </thead>
                                     <tbody>
                                 `;
-
                             data.repair.forEach(function(repair) {
                                 htmlRepair += `
                                     <tr class="text-center">

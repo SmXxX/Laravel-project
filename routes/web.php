@@ -5,10 +5,11 @@ use App\Models\Client;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CarsController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ClientsController;
 use App\Http\Controllers\RepairsController;
-use App\Http\Controllers\HomeController;
+use App\Http\Controllers\GetCarInfoAndRepairsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -61,9 +62,11 @@ Route::group(['middleware'=>'auth'],function(){
     //Create new client (POST)
     Route::post('/repairs/create',[RepairsController::class,'store']);
 
-    Route::post('get-car-info', [CarsController::class, 'get_carInfo']);
+    Route::post('get-car-info-and-repairs',[GetCarInfoAndRepairsController::class,'CarInfoAndRepairs']);
 
-    Route::post('get-repair-info',[RepairsController::class,'getRepairInfo']);
+    // Route::post('get-car-info', [CarsController::class, 'get_carInfo']);
+
+    // Route::post('get-repair-info',[RepairsController::class,'getRepairInfo']);
 });
 Route::prefix('adminPanel')->name('adminPanel.')->group(function(){
     Route::get('/',[AdminController::class,'index'])->name('index');
