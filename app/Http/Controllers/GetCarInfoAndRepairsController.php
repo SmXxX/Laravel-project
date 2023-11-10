@@ -17,7 +17,7 @@ class GetCarInfoAndRepairsController extends Controller
         $car = Car::where('id', $carId)->first();
     
         // Fetch repair info (replace with your actual code to fetch repair data)
-        $repair = Repair::where('id', $repairId)->first(); 
+        $repair = Repair::where('car_id', $carId)->get(); 
     
         if ($car && $repair){
             return response()->json(['status' => true, 'car' => $car, 'repair' => $repair], 200);

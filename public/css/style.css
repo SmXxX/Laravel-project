@@ -92,6 +92,10 @@ button.button-search{
   /* .table-car-desc{
     padding:0 5px;
   } */
+  .mobile-grid-repairs{
+    margin-left:0px !important;
+    border-radius: 10px;
+  }
 
   /* Desktop Styles (dots on top and bottom) */
 @media (min-width: 1024px) { /* Adjust the breakpoint as needed */

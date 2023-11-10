@@ -54,14 +54,14 @@ class RepairsController extends Controller
 
         return redirect()->route('single')->with('message','Ремонтът е създаден успешно!');
     }
-    public function getRepairInfo(Request $request){
-        $carId = $request->selectedCar;
-        // $clientId = $request->clientId;
-        $repair = Repair::where('car_id',$carId)->get();
-        if ($repair){
-            return response()->json(['status' => true, 'repair'=>$repair], 200);
-        }else{
-            return response()->json(['status' => false, 'message' => 'Not Found!'], 404);
-        }
-    }
+    // public function getRepairInfo(Request $request){
+    //     $carId = $request->selectedCar;
+    //     // $clientId = $request->clientId;
+    //     $repair = Repair::where('car_id',$carId)->get();
+    //     if ($repair){
+    //         return response()->json(['status' => true, 'repair'=>$repair], 200);
+    //     }else{
+    //         return response()->json(['status' => false, 'message' => 'Not Found!'], 404);
+    //     }
+    // }
 }

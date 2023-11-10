@@ -110,33 +110,65 @@
         </div>
     </x-card>
     <h2 class="text-2xl font-bold uppercase text-center m-5">Ремонти</h2>
-    <x-card class="mt-4 p-2 space-x-6 text-right">
-        <a href="{{route('repairs',$selectedCar->id)}}">
-            <i class="fa-solid fa-pencil"></i> Добавяне на ремонт
-        </a>
-        <table class="w-full mt-12" id="car-repairs">
-            <thead>
-                <tr class="text-center">
-                    <th>Извършен ремонт</th>
-                    <th>Сменена част</th>
-                    <th>Километри</th>
-                    <th>Цена труд</th>
-                    <th>Цена части</th>
-                </tr>
-            </thead>
-            <tbody>
+    <x-card class="mt-4 p-2 space-x-6">
+        <div class="text-right">
+            <a href="{{route('repairs',$selectedCar->id)}}" class="text-[#007CCA]">
+                <i class="fa-solid fa-plus"></i> Добавяне на ремонт
+            </a>
+        </div>
+
+        <div id="car-repair-container">
+            {{-- Show grid only on >768px devices --}}
+            <div class="md:grid grid-cols-6 mt-5 hidden">
+                <div class="repair-heading colored-bg rounded-e-none p-2">Кола</div>
+                <div class="repair-heading colored-bg rounded-none p-2">Извършен ремонт</div>
+                <div class="repair-heading colored-bg rounded-none p-2">Сменена част</div>
+                <div class="repair-heading colored-bg rounded-none p-2">Километри</div>
+                <div class="repair-heading colored-bg rounded-none p-2">Цена труд</div>
+                <div class="repair-heading colored-bg rounded-s-none p-2">Цена части</div>
                 @foreach ($repairs as $repair)
-                    <tr class="text-center">
-                        {{-- <td>{{$repair->car_id }}</td> --}}
-                        <td>{{$repair->repair }}</td>
-                        <td>{{$repair->part }}</td>
-                        <td>{{$repair->kilometers }}</td>
-                        <td>{{$repair->work_cost }}</td>
-                        <td>{{$repair->part_cost }}</td>
-                    </tr>
+                    <div class="repair-data p-2 rounded-e-none">{{$selectedCar->brand}}</div>
+                    <div class="repair-data p-2 rounded-none">{{$repair->repair }}</div>
+                    <div class="repair-data p-2 rounded-none">{{$repair->part }}</div>
+                    <div class="repair-data p-2 rounded-none">{{$repair->kilometers }}</div>
+                    <div class="repair-data p-2 rounded-none">{{$repair->work_cost }}</div>
+                    <div class="repair-data p-2 rounded-s-none">{{$repair->part_cost }}<a href="#" class="text-[#ff9800] px-2 float-right"><i class="fa-solid fa-pencil"></i></a></div>
                 @endforeach
-            </tbody>
-        </table> 
+            </div>
+            {{-- END of show grid only on >768px devices --}}
+
+            {{-- Show grid only on <768px devices --}}
+            @foreach ($repairs as $repair)
+            <div class="grid grid-cols-1 mt-5 md:hidden border mobile-grid-repairs">
+                <div class="grid grid-cols-2 colored-bg p-2">
+                    <div class="repair-heading">Кола</div>
+                    <div class="repair-data">{{$selectedCar->brand}}<a href="#" class="text-[#ff9800] px-2 float-right"><i class="fa-solid fa-pencil"></i></a></div>
+
+                </div>
+                <div class="grid grid-cols-2 p-2">
+                    <div class="repair-heading">Извършен ремонт</div>
+                    <div class="repair-data">{{$repair->repair }}</div>
+                </div>
+                <div class="grid grid-cols-2 colored-bg p-2">
+                    <div class="repair-heading">Сменена част</div>
+                    <div class="repair-data">{{$repair->part }}</div>
+                </div>
+                <div class="grid grid-cols-2 p-2">
+                    <div class="repair-heading">Километри</div>
+                    <div class="repair-data">{{$repair->kilometers }}</div>
+                </div>
+                <div class="grid grid-cols-2 colored-bg p-2">
+                    <div class="repair-heading">Цена труд</div>
+                    <div class="repair-data">{{$repair->work_cost }}</div>
+                </div>
+                <div class="grid grid-cols-2 p-2">
+                    <div class="repair-heading">Цена части</div>
+                    <div class="repair-data">{{$repair->part_cost }}</div>
+                </div>
+            </div>
+            @endforeach
+            {{-- END of show grid only on <768px devices --}}
+        </div>
     </x-card>
     </div>
     @push("scripts")
@@ -144,7 +176,7 @@
             jQuery(document).ready(function($){
                 var csrf_token = "{{ csrf_token() }}";
                 var clientId = " {{$client->id}} ";
-                var repairId = " {{$repair->id}} "
+                var repairId = "{{$repair->id}}";
                 $('#carSelect').on('change',function(){
                     var selectedCar = $(this).val();
                     $.ajax({
@@ -152,14 +184,15 @@
                         type: "POST",
                         data: {
                             _token: csrf_token,
-                            selectedCar,
-                            clientId,
-                            repairId
+                            selectedCar: selectedCar,
+                            clientId: clientId,
+                            repairId: repairId
                         },
                         success: function(data){
-                            var html = '';
-                            var htmlRepair = '';
-                            html = `
+                                var html = '';
+                                var htmlRepair = '';
+                                var repair = data.repair;
+                                html = `
                                 <div class="flex flex-col" id="car-info">
                                     <div class="flex flex-row lg:justify-between mt-5 md:mt-0">
                                         <h2 class="lg:text-2xl text-center mb-5 text-[#007CCA]">Описание на колата</h2>
@@ -217,37 +250,68 @@
                                 </div>    
                                 `;
                                 $('#car-info').html(html);
+                                
+                                if (data.repairs && data.repairs.length > 0) {
+                                data.repairs.forEach(function (repair){
+                                    htmlRepair+=`
+                                    <div id="car-repair-container">
+                                    {{-- Show grid only on >768px devices --}}
+                                    <div class="md:grid grid-cols-6 mt-5 hidden">
+                                        <div class="repair-heading colored-bg rounded-e-none p-2">Кола</div>
+                                        <div class="repair-heading colored-bg rounded-none p-2">Извършен ремонт</div>
+                                        <div class="repair-heading colored-bg rounded-none p-2">Сменена част</div>
+                                        <div class="repair-heading colored-bg rounded-none p-2">Километри</div>
+                                        <div class="repair-heading colored-bg rounded-none p-2">Цена труд</div>
+                                        <div class="repair-heading colored-bg rounded-s-none p-2">Цена части</div>
+                                        
+                                            <div class="repair-data p-2 rounded-e-none">${data.car.brand}</div>
+                                            <div class="repair-data p-2 rounded-none">${repair.repair}</div>
+                                            <div class="repair-data p-2 rounded-none">${repair.part}</div>
+                                            <div class="repair-data p-2 rounded-none">${repair.kilometers}</div>
+                                            <div class="repair-data p-2 rounded-none">${repair.work_cost}</div>
+                                            <div class="repair-data p-2 rounded-s-none">${repair.part_cost}<a href="#" class="text-[#ff9800] px-2 float-right"><i class="fa-solid fa-pencil"></i></a></div>
+                                        
+                                    </div>
+                                    {{-- END of show grid only on >768px devices --}}
 
-                                htmlRepair = `
-                                <table class="w-full mt-12" id="car-repairs">
-                                    <thead>
-                                        <tr class="text-center">
-                                            <th>Извършен ремонт</th>
-                                            <th>Сменена част</th>
-                                            <th>Километри</th>
-                                            <th>Цена труд</th>
-                                            <th>Цена части</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                `;
-                            data.repair.forEach(function(repair) {
-                                htmlRepair += `
-                                    <tr class="text-center">
-                                        <td>${repair.repair}</td>
-                                        <td>${repair.part}</td>
-                                        <td>${repair.kilometers}</td>
-                                        <td>${repair.work_cost}</td>
-                                        <td>${repair.part_cost}</td>
-                                    </tr>
-                                `;
-                            });
+                                    {{-- Show grid only on <768px devices --}}
+                                    
+                                    <div class="grid grid-cols-1 mt-5 md:hidden border mobile-grid-repairs">
+                                        <div class="grid grid-cols-2 colored-bg p-2">
+                                            <div class="repair-heading">Кола</div>
+                                            <div class="repair-data">${data.car.brand}<a href="#" class="text-[#ff9800] px-2 float-right"><i class="fa-solid fa-pencil"></i></a></div>
 
-                            htmlRepair += `
-                                    </tbody>
-                                </table>
-                            `;
-                            $('#car-repairs').html(htmlRepair);
+                                        </div>
+                                        <div class="grid grid-cols-2 p-2">
+                                            <div class="repair-heading">Извършен ремонт</div>
+                                            <div class="repair-data">${repair.repair}</div>
+                                        </div>
+                                        <div class="grid grid-cols-2 colored-bg p-2">
+                                            <div class="repair-heading">Сменена част</div>
+                                            <div class="repair-data">${repair.part}</div>
+                                        </div>
+                                        <div class="grid grid-cols-2 p-2">
+                                            <div class="repair-heading">Километри</div>
+                                            <div class="repair-data">${repair.kilometers}</div>
+                                        </div>
+                                        <div class="grid grid-cols-2 colored-bg p-2">
+                                            <div class="repair-heading">Цена труд</div>
+                                            <div class="repair-data">${repair.work_cost}</div>
+                                        </div>
+                                        <div class="grid grid-cols-2 p-2">
+                                            <div class="repair-heading">Цена части</div>
+                                            <div class="repair-data">${repair.part_cost}</div>
+                                        </div>
+                                    </div>
+                                    {{-- END of show grid only on <768px devices --}}
+                                    </div>
+                                    `
+                                });
+                                }else{
+                                    htmlRepair = '<p>No repairs available for this car.</p>';
+                                }
+                                    $('#car-repair-container').html(htmlRepair);
+                                    console.log(repair);
                         },
                         error: function(xhr){
                             console.log('Error: ', xhr);
