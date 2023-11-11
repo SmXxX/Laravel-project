@@ -62,6 +62,9 @@ Route::group(['middleware'=>'auth'],function(){
     //Create new client (POST)
     Route::post('/repairs/create',[RepairsController::class,'store']);
 
+    //Edit repair
+    Route::get('/repair/edit/{id}/{repairId}',[RepairsController::class,'edit'])->name('edit_repair');
+
     Route::post('/get-car-info-and-repairs',[GetCarInfoAndRepairsController::class,'CarInfoAndRepairs']);
 
     // Route::post('get-car-info', [CarsController::class, 'get_carInfo']);

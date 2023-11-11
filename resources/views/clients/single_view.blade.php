@@ -110,7 +110,7 @@
         </div>
     </x-card>
     <h2 class="text-2xl font-bold uppercase text-center m-5">Ремонти</h2>
-    <x-card class="mt-4 p-2 space-x-6">
+    <x-card class="mt-4 p-2 lg:space-x-6">
         <div class="text-right">
             <a href="{{route('repairs',$selectedCar->id)}}" class="text-[#007CCA]">
                 <i class="fa-solid fa-plus"></i> Добавяне на ремонт
@@ -132,7 +132,7 @@
                     <div class="repair-data p-2 rounded-none">{{$repair->part }}</div>
                     <div class="repair-data p-2 rounded-none">{{$repair->kilometers }}</div>
                     <div class="repair-data p-2 rounded-none">{{$repair->work_cost }}</div>
-                    <div class="repair-data p-2 rounded-s-none">{{$repair->part_cost }}<a href="#" class="text-[#ff9800] px-2 float-right"><i class="fa-solid fa-pencil"></i></a></div>
+                    <div class="repair-data p-2 rounded-s-none">{{$repair->part_cost }}<a href="#" class="text-[#EF4444] px-2 float-right"><i class="fa-solid fa-trash"></i></a><a href="{{route('edit_repair',[$repair->id, $car->id])}}" class="text-[#ff9800] px-2 float-right"><i class="fa-solid fa-pencil"></i></a></div>
                 @endforeach
             </div>
             {{-- END of show grid only on >768px devices --}}
@@ -142,7 +142,7 @@
             <div class="grid grid-cols-1 mt-5 md:hidden border mobile-grid-repairs">
                 <div class="grid grid-cols-2 colored-bg p-2">
                     <div class="repair-heading">Кола</div>
-                    <div class="repair-data">{{$selectedCar->brand}}<a href="#" class="text-[#ff9800] px-2 float-right"><i class="fa-solid fa-pencil"></i></a></div>
+                    <div class="repair-data">{{$selectedCar->brand}}<a href="#" class="text-[#EF4444] px-2 float-right"><i class="fa-solid fa-trash"></i></a><a href="{{route('edit_repair',[$repair->id, $car->id])}}" class="text-[#ff9800] px-2 float-right"><i class="fa-solid fa-pencil"></i></a></div>
 
                 </div>
                 <div class="grid grid-cols-2 p-2">
@@ -251,35 +251,38 @@
                                 `;
                                 $('#car-info').html(html);
                                 
-                                if (data.repairs && data.repairs.length > 0) {
-                                data.repairs.forEach(function (repair){
+                                if (data.repair && data.repair.length > 0) {
+                                    htmlRepair += `
+                                            <!-- Show grid only on >768px devices -->
+                                            <div class="md:grid grid-cols-6 mt-5 hidden">
+                                                <div class="repair-heading colored-bg rounded-e-none p-2">Кола</div>
+                                                <div class="repair-heading colored-bg rounded-none p-2">Извършен ремонт</div>
+                                                <div class="repair-heading colored-bg rounded-none p-2">Сменена част</div>
+                                                <div class="repair-heading colored-bg rounded-none p-2">Километри</div>
+                                                <div class="repair-heading colored-bg rounded-none p-2">Цена труд</div>
+                                                <div class="repair-heading colored-bg rounded-s-none p-2">Цена части</div>
+                                            </div>
+                                            <!-- END of show grid only on >768px devices -->
+                                    `;
+                                    data.repair.forEach(function (repair){
                                     htmlRepair+=`
-                                    <div id="car-repair-container">
-                                    {{-- Show grid only on >768px devices --}}
-                                    <div class="md:grid grid-cols-6 mt-5 hidden">
-                                        <div class="repair-heading colored-bg rounded-e-none p-2">Кола</div>
-                                        <div class="repair-heading colored-bg rounded-none p-2">Извършен ремонт</div>
-                                        <div class="repair-heading colored-bg rounded-none p-2">Сменена част</div>
-                                        <div class="repair-heading colored-bg rounded-none p-2">Километри</div>
-                                        <div class="repair-heading colored-bg rounded-none p-2">Цена труд</div>
-                                        <div class="repair-heading colored-bg rounded-s-none p-2">Цена части</div>
-                                        
+                                        {{-- Show grid only on >768px devices --}}
+                                        <div class="md:grid grid-cols-6 mt-5 hidden">
                                             <div class="repair-data p-2 rounded-e-none">${data.car.brand}</div>
                                             <div class="repair-data p-2 rounded-none">${repair.repair}</div>
                                             <div class="repair-data p-2 rounded-none">${repair.part}</div>
                                             <div class="repair-data p-2 rounded-none">${repair.kilometers}</div>
                                             <div class="repair-data p-2 rounded-none">${repair.work_cost}</div>
-                                            <div class="repair-data p-2 rounded-s-none">${repair.part_cost}<a href="#" class="text-[#ff9800] px-2 float-right"><i class="fa-solid fa-pencil"></i></a></div>
-                                        
-                                    </div>
-                                    {{-- END of show grid only on >768px devices --}}
+                                            <div class="repair-data p-2 rounded-s-none">${repair.part_cost}<a href="#" class="text-[#EF4444] px-2 float-right"><i class="fa-solid fa-trash"></i></a><a href="#" class="text-[#ff9800] px-2 float-right"><i class="fa-solid fa-pencil"></i></a></div>
+                                        </div>
+                                        {{-- END of show grid only on >768px devices --}}
 
                                     {{-- Show grid only on <768px devices --}}
                                     
                                     <div class="grid grid-cols-1 mt-5 md:hidden border mobile-grid-repairs">
                                         <div class="grid grid-cols-2 colored-bg p-2">
                                             <div class="repair-heading">Кола</div>
-                                            <div class="repair-data">${data.car.brand}<a href="#" class="text-[#ff9800] px-2 float-right"><i class="fa-solid fa-pencil"></i></a></div>
+                                            <div class="repair-data">${data.car.brand}<a href="#" class="text-[#EF4444] px-2 float-right"><i class="fa-solid fa-trash"></i></a><a href="#" class="text-[#ff9800] px-2 float-right"><i class="fa-solid fa-pencil"></i></a></div>
 
                                         </div>
                                         <div class="grid grid-cols-2 p-2">
