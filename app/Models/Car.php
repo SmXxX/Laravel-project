@@ -26,13 +26,15 @@ class Car extends Model
         'additional_info'
     ];
 
-    //Relationship with client
-     public function client(){
-         return $this->hasMany(Client::class);
-     }
+    // Relationship with client
+    public function client()
+    {
+        return $this->belongsTo(Client::class);
+    }
 
-     //Relationship with repair
-     public function repair(){
-        return $this->hasMany(Repair::class);
+    // Relationship with repairs
+    public function repairs()
+    {
+        return $this->hasMany(Repair::class, 'car_id');
     }
 }

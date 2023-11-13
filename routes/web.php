@@ -57,19 +57,26 @@ Route::group(['middleware'=>'auth'],function(){
     Route::post('/cars/edit/{id}/{cId}',[CarsController::class,'update']);
     
     //Create new repair (VIEW)
-    Route::get('/repairs/create',[RepairsController::class,'create'])->name('repairs');
+    Route::get('/repairs/create/{client}', [RepairsController::class,'create'])->name('repairs');
+
 
     //Create new client (POST)
-    Route::post('/repairs/create',[RepairsController::class,'store']);
+    Route::post('/repairs/create/{client}',[RepairsController::class,'store']);
 
     //Edit repair
     Route::get('/repair/edit/{id}/{repairId}',[RepairsController::class,'edit'])->name('edit_repair');
+    
+    Route::post('/repair/edit/{id}/{repairId}',[RepairsController::class,'update']);
+
+    Route::delete('/repair/{id}',[RepairsController::class,'destroy'])->name('repair_destroy');
 
     Route::post('/get-car-info-and-repairs',[GetCarInfoAndRepairsController::class,'CarInfoAndRepairs']);
+
 
     // Route::post('get-car-info', [CarsController::class, 'get_carInfo']);
 
     // Route::post('get-repair-info',[RepairsController::class,'getRepairInfo']);
+
 });
 Route::prefix('adminPanel')->name('adminPanel.')->group(function(){
     Route::get('/',[AdminController::class,'index'])->name('index');

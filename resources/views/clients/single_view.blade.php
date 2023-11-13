@@ -132,7 +132,11 @@
                     <div class="repair-data p-2 rounded-none">{{$repair->part }}</div>
                     <div class="repair-data p-2 rounded-none">{{$repair->kilometers }}</div>
                     <div class="repair-data p-2 rounded-none">{{$repair->work_cost }}</div>
-                    <div class="repair-data p-2 rounded-s-none">{{$repair->part_cost }}<a href="#" class="text-[#EF4444] px-2 float-right"><i class="fa-solid fa-trash"></i></a><a href="{{route('edit_repair',[$repair->id, $car->id])}}" class="text-[#ff9800] px-2 float-right"><i class="fa-solid fa-pencil"></i></a></div>
+                    <div class="repair-data p-2 rounded-s-none">{{$repair->part_cost }}<form class="text-[#EF4444] px-2 float-right" method="POST" action="{{ route('repair_destroy', ['id' => $repair->id]) }}">
+                        @csrf
+                        @method('DELETE')
+                        <button onclick="return confirm('Сигурен ли си ?')"><i class="fa-solid fa-trash"></i></button>
+                    </form><a href="{{route('edit_repair',[$repair->id, $car->id])}}" class="text-[#ff9800] px-2 float-right"><i class="fa-solid fa-pencil"></i></a></div>
                 @endforeach
             </div>
             {{-- END of show grid only on >768px devices --}}
@@ -142,7 +146,11 @@
             <div class="grid grid-cols-1 mt-5 md:hidden border mobile-grid-repairs">
                 <div class="grid grid-cols-2 colored-bg p-2">
                     <div class="repair-heading">Кола</div>
-                    <div class="repair-data">{{$selectedCar->brand}}<a href="#" class="text-[#EF4444] px-2 float-right"><i class="fa-solid fa-trash"></i></a><a href="{{route('edit_repair',[$repair->id, $car->id])}}" class="text-[#ff9800] px-2 float-right"><i class="fa-solid fa-pencil"></i></a></div>
+                    <div class="repair-data">{{$selectedCar->brand}}<form class="text-[#EF4444] px-2 float-right" method="POST" action="{{ route('repair_destroy', ['id' => $repair->id]) }}">
+                        @csrf
+                        @method('DELETE')
+                        <button  onclick="return confirm('Сигурен ли си ?')"><i class="fa-solid fa-trash"></i></button>
+                    </form><a href="{{route('edit_repair',[$repair->id, $car->id])}}" class="text-[#ff9800] px-2 float-right"><i class="fa-solid fa-pencil"></i></a></div>
 
                 </div>
                 <div class="grid grid-cols-2 p-2">
@@ -175,8 +183,7 @@
         <script>
             jQuery(document).ready(function($){
                 var csrf_token = "{{ csrf_token() }}";
-                var clientId = " {{$client->id}} ";
-                var repairId = "{{$repair->id}}";
+                var clientId = " {{ $client->id }} ";
                 $('#carSelect').on('change',function(){
                     var selectedCar = $(this).val();
                     $.ajax({
@@ -186,12 +193,10 @@
                             _token: csrf_token,
                             selectedCar: selectedCar,
                             clientId: clientId,
-                            repairId: repairId
                         },
                         success: function(data){
                                 var html = '';
                                 var htmlRepair = '';
-                                var repair = data.repair;
                                 html = `
                                 <div class="flex flex-col" id="car-info">
                                     <div class="flex flex-row lg:justify-between mt-5 md:mt-0">
@@ -264,6 +269,32 @@
                                             </div>
                                             <!-- END of show grid only on >768px devices -->
                                     `;
+                                    function confirmDelete(repairId) {
+                                    if (confirm('Сигурен ли си ?')) {
+                                        deleteRepair(repairId);
+                                    }
+                                }
+
+                                // Add this function to handle repair deletion
+                                function deleteRepair(repairId) {
+                                    $.ajax({
+                                        url: '/repair/' + repairId,
+                                        type: 'DELETE',
+                                        data: {
+                                            _token: csrf_token,
+                                        },
+                                        success: function (data) {
+                                            // Handle success, maybe refresh the repair list or do something else
+                                            console.log(data.message);
+
+                                            // Remove the deleted repair element from the page
+                                            $('.repair[data-repair-id="' + repairId + '"]').remove();
+                                        },
+                                        error: function (xhr) {
+                                            console.log('Error: ', xhr);
+                                        },
+                                    });
+                                }
                                     data.repair.forEach(function (repair){
                                     htmlRepair+=`
                                         {{-- Show grid only on >768px devices --}}
@@ -273,7 +304,13 @@
                                             <div class="repair-data p-2 rounded-none">${repair.part}</div>
                                             <div class="repair-data p-2 rounded-none">${repair.kilometers}</div>
                                             <div class="repair-data p-2 rounded-none">${repair.work_cost}</div>
-                                            <div class="repair-data p-2 rounded-s-none">${repair.part_cost}<a href="#" class="text-[#EF4444] px-2 float-right"><i class="fa-solid fa-trash"></i></a><a href="#" class="text-[#ff9800] px-2 float-right"><i class="fa-solid fa-pencil"></i></a></div>
+                                            <div class="repair-data p-2 rounded-s-none">${repair.part_cost}<form class="text-[#EF4444] px-2 float-right delete-repair-form" method="POST" action="/repair/${repair.id}" data-repair-id="${repair.id}">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="button" class="delete-repair-button">
+                                                    <i class="fa-solid fa-trash"></i>
+                                                </button>
+                                            </form><a href="#" class="text-[#ff9800] px-2 float-right"><i class="fa-solid fa-pencil"></i></a></div>
                                         </div>
                                         {{-- END of show grid only on >768px devices --}}
 
@@ -282,7 +319,13 @@
                                     <div class="grid grid-cols-1 mt-5 md:hidden border mobile-grid-repairs">
                                         <div class="grid grid-cols-2 colored-bg p-2">
                                             <div class="repair-heading">Кола</div>
-                                            <div class="repair-data">${data.car.brand}<a href="#" class="text-[#EF4444] px-2 float-right"><i class="fa-solid fa-trash"></i></a><a href="#" class="text-[#ff9800] px-2 float-right"><i class="fa-solid fa-pencil"></i></a></div>
+                                            <div class="repair-data">${data.car.brand}<form class="text-[#EF4444] px-2 float-right delete-repair-form" method="POST" action="/repair/${repair.id}" data-repair-id="${repair.id}">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="button" class="delete-repair-button">
+                                                    <i class="fa-solid fa-trash"></i>
+                                                </button>
+                                            </form><a href="#" class="text-[#ff9800] px-2 float-right"><i class="fa-solid fa-pencil"></i></a></div>
 
                                         </div>
                                         <div class="grid grid-cols-2 p-2">
@@ -311,10 +354,14 @@
                                     `
                                 });
                                 }else{
-                                    htmlRepair = '<p>No repairs available for this car.</p>';
+                                    htmlRepair = '<p>Няма ремонти за тази кола</p>';
                                 }
                                     $('#car-repair-container').html(htmlRepair);
-                                    console.log(repair);
+                                    
+                                    $('.delete-repair-button').on('click', function() {
+                                        var repairId = $(this).closest('form').data('repair-id');
+                                        confirmDelete(repairId);
+                                    });  
                         },
                         error: function(xhr){
                             console.log('Error: ', xhr);

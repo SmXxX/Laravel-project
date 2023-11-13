@@ -2,7 +2,7 @@
     <x-card class="p-10 max-w-lg mx-auto mt-10 bg-gray-50 border border-gray-200 ">
         <header class="text-center">
             <h2 class="text-2xl font-bold uppercase mb-6">
-                Редактиране на кола
+                Редактиране на ремонт
             </h2>
         </header>
 
@@ -50,9 +50,9 @@
                     type="text"
                     id="car_repair"
                     class="border border-gray-200 rounded p-2 w-full"
-                    name="car_repair"
+                    name="repair"
                     placeholder="Извършен ремонт"
-                    value="{{$repair->repair}}"
+                    value="{{$repair_car->repair}}"
                 />
                 @error('car_repair')
                     <p class="text-red-500 text-xs mt-1">{{$message}}</p>
@@ -66,9 +66,9 @@
                     type="text"
                     id="car_part"
                     class="border border-gray-200 rounded p-2 w-full"
-                    name="car_part"
+                    name="part"
                     placeholder="Сменена част"
-                    value="{{$repair->part}}"
+                    value="{{$repair_car->part}}"
                 />
                 @error('car_part')
                     <p class="text-red-500 text-xs mt-1">{{$message}}</p>
@@ -82,9 +82,9 @@
                     type="text"
                     id="car_kilometers"
                     class="border border-gray-200 rounded p-2 w-full"
-                    name="car_kilometers"
+                    name="kilometers"
                     placeholder="Километри"
-                    value="{{$repair->kilometers}}"
+                    value="{{$repair_car->kilometers}}"
                 />
                 @error('car_kilometers')
                     <p class="text-red-500 text-xs mt-1">{{$message}}</p>
@@ -98,9 +98,9 @@
                     type="text"
                     id="car_work_cost"
                     class="border border-gray-200 rounded p-2 w-full"
-                    name="car_work_cost"
+                    name="work_cost"
                     placeholder="Цена труд"
-                    value="{{$repair->work_cost}}"
+                    value="{{$repair_car->work_cost}}"
                 />
                 @error('car_work_cost')
                     <p class="text-red-500 text-xs mt-1">{{$message}}</p>
@@ -114,9 +114,9 @@
                     type="text"
                     id="car_part_cost"
                     class="border border-gray-200 rounded p-2 w-full"
-                    name="car_part_cost"
+                    name="part_cost"
                     placeholder="Цена части"
-                    value="{{$repair->part_cost}}"
+                    value="{{$repair_car->part_cost}}"
                 />
                 @error('car_part_cost')
                     <p class="text-red-500 text-xs mt-1">{{$message}}</p>
@@ -129,7 +129,7 @@
                     Редактирай
                 </button>
 
-                <a href="{{ URL::previous() }}" class="text-black ml-4"> Назад </a>
+                <a href="{{ route('single',['id' => $repair_car->car->client_id]) }}" class="text-black ml-4"> Назад </a>
             </div>
         </form>
     </x-card>

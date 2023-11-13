@@ -22,6 +22,6 @@ class Repair extends Model
 
     //Relationship with client
     public function car(){
-        return $this->hasMany(Car::class);
+        return $this->belongsTo(Car::class, 'car_id');
     }
 }
