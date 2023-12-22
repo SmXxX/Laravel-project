@@ -109,6 +109,7 @@ class CarsController extends Controller
             'kw'=>$request->hp*0.7457,
             'fuel'=>$request->fuel,
             'vin_num'=>$request->vin_num,
+            'additional_info'=>$request->additional_info
         ]);
         return redirect()->route('single',$cId)->with('message','Колата е редактирана успешно!');
     }

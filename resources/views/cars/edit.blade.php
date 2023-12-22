@@ -189,13 +189,19 @@
                 @enderror
             </div>
             <div class="mb-6">
+                <label for="additional_info" class="inline-block text-lg mb-2"
+                    >Бележка</label
+                >
+                <textarea id="additional_info" rows="4" cols="50" class="border border-gray-200 rounded p-2 w-full" placeholder="Бележка за колата" name="additional_info">{{$car->additional_info}}</textarea>
+            </div>
+            <div class="mb-6">
                 <button
                     class="bg-[#007CCA] text-white rounded py-2 px-4 hover:bg-black"
                 >
                     Редактирай
                 </button>
 
-                <a href="{{ URL::previous() }}" class="text-black ml-4"> Назад </a>
+                <a href="{{ route('single',['id' => $car->client_id]) }}" class="text-black ml-4"> Назад </a>
             </div>
         </form>
     </x-card>

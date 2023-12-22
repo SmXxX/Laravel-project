@@ -112,13 +112,13 @@
     <h2 class="text-2xl font-bold uppercase text-center m-5">Ремонти</h2>
     <x-card class="mt-4 p-2 lg:space-x-6">
         <div class="text-right">
-            <a href="{{route('repairs',$selectedCar->id)}}" class="text-[#007CCA]">
+            <a href="{{route('repairs',$selectedCar->id)}}" class="text-[#007CCA]" id="add_repair">
                 <i class="fa-solid fa-plus"></i> Добавяне на ремонт
             </a>
         </div>
-
         <div id="car-repair-container">
             {{-- Show grid only on >768px devices --}}
+            @if ($repairs->count()>0)
             <div class="md:grid grid-cols-6 mt-5 hidden">
                 <div class="repair-heading colored-bg rounded-e-none p-2">Кола</div>
                 <div class="repair-heading colored-bg rounded-none p-2">Извършен ремонт</div>
@@ -139,41 +139,44 @@
                     </form><a href="{{route('edit_repair',[$repair->id, $car->id])}}" class="text-[#ff9800] px-2 float-right"><i class="fa-solid fa-pencil"></i></a></div>
                 @endforeach
             </div>
+            @else
+                <p>Няма ремонти за тази кола</p>
+            @endif
             {{-- END of show grid only on >768px devices --}}
 
             {{-- Show grid only on <768px devices --}}
             @foreach ($repairs as $repair)
-            <div class="grid grid-cols-1 mt-5 md:hidden border mobile-grid-repairs">
-                <div class="grid grid-cols-2 colored-bg p-2">
-                    <div class="repair-heading">Кола</div>
-                    <div class="repair-data">{{$selectedCar->brand}}<form class="text-[#EF4444] px-2 float-right" method="POST" action="{{ route('repair_destroy', ['id' => $repair->id]) }}">
-                        @csrf
-                        @method('DELETE')
-                        <button  onclick="return confirm('Сигурен ли си ?')"><i class="fa-solid fa-trash"></i></button>
-                    </form><a href="{{route('edit_repair',[$repair->id, $car->id])}}" class="text-[#ff9800] px-2 float-right"><i class="fa-solid fa-pencil"></i></a></div>
+                <div class="grid grid-cols-1 mt-5 md:hidden border mobile-grid-repairs">
+                    <div class="grid grid-cols-2 colored-bg p-2">
+                        <div class="repair-heading">Кола</div>
+                        <div class="repair-data">{{$selectedCar->brand}}<form class="text-[#EF4444] px-2 float-right" method="POST" action="{{ route('repair_destroy', ['id' => $repair->id]) }}">
+                            @csrf
+                            @method('DELETE')
+                            <button  onclick="return confirm('Сигурен ли си ?')"><i class="fa-solid fa-trash"></i></button>
+                        </form><a href="{{route('edit_repair',[$repair->id, $car->id])}}" class="text-[#ff9800] px-2 float-right"><i class="fa-solid fa-pencil"></i></a></div>
 
+                    </div>
+                    <div class="grid grid-cols-2 p-2">
+                        <div class="repair-heading">Извършен ремонт</div>
+                        <div class="repair-data">{{$repair->repair }}</div>
+                    </div>
+                    <div class="grid grid-cols-2 colored-bg p-2">
+                        <div class="repair-heading">Сменена част</div>
+                        <div class="repair-data">{{$repair->part }}</div>
+                    </div>
+                    <div class="grid grid-cols-2 p-2">
+                        <div class="repair-heading">Километри</div>
+                        <div class="repair-data">{{$repair->kilometers }}</div>
+                    </div>
+                    <div class="grid grid-cols-2 colored-bg p-2">
+                        <div class="repair-heading">Цена труд</div>
+                        <div class="repair-data">{{$repair->work_cost }}</div>
+                    </div>
+                    <div class="grid grid-cols-2 p-2">
+                        <div class="repair-heading">Цена части</div>
+                        <div class="repair-data">{{$repair->part_cost }}</div>
+                    </div>
                 </div>
-                <div class="grid grid-cols-2 p-2">
-                    <div class="repair-heading">Извършен ремонт</div>
-                    <div class="repair-data">{{$repair->repair }}</div>
-                </div>
-                <div class="grid grid-cols-2 colored-bg p-2">
-                    <div class="repair-heading">Сменена част</div>
-                    <div class="repair-data">{{$repair->part }}</div>
-                </div>
-                <div class="grid grid-cols-2 p-2">
-                    <div class="repair-heading">Километри</div>
-                    <div class="repair-data">{{$repair->kilometers }}</div>
-                </div>
-                <div class="grid grid-cols-2 colored-bg p-2">
-                    <div class="repair-heading">Цена труд</div>
-                    <div class="repair-data">{{$repair->work_cost }}</div>
-                </div>
-                <div class="grid grid-cols-2 p-2">
-                    <div class="repair-heading">Цена части</div>
-                    <div class="repair-data">{{$repair->part_cost }}</div>
-                </div>
-            </div>
             @endforeach
             {{-- END of show grid only on <768px devices --}}
         </div>
@@ -368,6 +371,22 @@
                         }
                     });
                 });
+            });
+            $('#carSelect').on('change', function() {
+                let carId = $(this).val();
+                let addRepair = $('#add_repair');
+                let originalHref = addRepair.attr('href');
+
+                // Split the URL by '?' to separate the base URL and existing query parameters
+                let [baseUrl, queryParams] = originalHref.split('?');
+
+                // If there are existing query parameters, append the new one; otherwise, create the new query string
+                let newParams = queryParams ? `${queryParams}&carId=${carId}` : `carId=${carId}`;
+
+                // Reconstruct the href with the updated query parameters
+                let newHref = `${baseUrl}?${newParams}`;
+                
+                addRepair.attr('href', newHref);
             });
         </script>
     @endpush

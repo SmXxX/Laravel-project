@@ -18,9 +18,9 @@ class RepairsController extends Controller
     public function create(Client $client){
         // Retrieve only the cars of the client
         $cars = Car::where('client_id', $client->id)->get();
-    
         return view('repairs.create', [
             'cars' => $cars,
+            'client' => $client, // Pass the client data to the view
         ]);
     }
     
@@ -42,8 +42,8 @@ class RepairsController extends Controller
             'part_cost.required' => 'Цена част е задължителна!',
         ]);
     
-        if($validator->fails()){
-            return redirect()->back()->withErrors($validator)->withInput();
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput($request->only('car_id', 'repair', 'part', 'kilometers', 'work_cost', 'part_cost'));
         }
     
         $car = Car::findOrFail($request->car_id);
@@ -83,8 +83,8 @@ class RepairsController extends Controller
             'part_cost.required'=>'Цена част е задължителна!',
             
         ]);
-        if($validator->fails()){
-            return redirect()->back()->withErrors($validator)->withInput();
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput($request->only('repair', 'part', 'kilometers', 'work_cost', 'part_cost'));
         }
 
         Repair::where('id',$id)->update([
@@ -97,12 +97,12 @@ class RepairsController extends Controller
 
         $car = Repair::findOrFail($repairId)->car;
         $clientId = $car->client_id;
-        return redirect()->route('single', ['id' => $clientId])->with('message','Ремонта е редактиран успешно!');
+        return redirect()->route('single', ['id' => $clientId])->with('message','Ремонтът е редактиран успешно!');
     }
     public function destroy($id){
         $repair = Repair::findOrFail($id);
         // $clientId = $repair->car->client_id; // Assuming car relationship exists
         $repair->delete();
-        return redirect()->back()->with('message', 'Ремонта е изтрит успешно!');
+        return redirect()->back()->with('message', 'Ремонтът е изтрит успешно!');
     }    
 }
