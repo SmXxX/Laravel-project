@@ -13,6 +13,7 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
             integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
             crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css" integrity="sha512-3pIirOrwegjM6erE5gPSwkUzO+3cTjpnV9lexlNZqvupR64iZBnOOTiiLPb9M36zpMScbmUNIcHUqKD47M719g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
         @push('style')
             
         @endpush
@@ -78,6 +79,43 @@
         </footer>
         {{-- <x-message/> --}}
         <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js" integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script>
+            jQuery(document).ready(function() {
+                @if (Session::has('message'))
+                    toastr.options = {
+                        "closeButton": true,
+                        "progressBar": true
+                    }
+                    toastr.success("{{ session('message') }}");
+                @endif
+
+                @if (Session::has('error'))
+                    toastr.options = {
+                        "closeButton": true,
+                        "progressBar": true
+                    }
+                    toastr.error("{{ session('error') }}");
+                @endif
+
+                @if (Session::has('info'))
+                    toastr.options = {
+                        "closeButton": true,
+                        "progressBar": true
+                    }
+                    toastr.info("{{ session('info') }}");
+                @endif
+
+                @if (Session::has('warning'))
+                    toastr.options = {
+                        "closeButton": true,
+                        "progressBar": true
+                    }
+                    toastr.warning("{{ session('warning') }}");
+                @endif
+            });
+        </script>
         @stack('scripts')
     </body>
 </html>

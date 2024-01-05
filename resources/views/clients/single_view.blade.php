@@ -1,11 +1,11 @@
 <x-layout>
-    @if (session('message'))
+    {{-- @if (session('message'))
         <div x-data="{show:true}" x-init="setTimeout(() => show = false, 3000)" x-show="show" class="fixed top-0 left-1/2 transform -translate-x-1/2 bg-[#007CCA] text-white px-48 xs-px-12 py-3">
             <p>
                 {{session('message')}}
             </p>
         </div>
-    @endif
+    @endif --}}
     {{-- @include('partials._search') --}}
     
     <a href="/" class="inline-block text-black ml-4 mb-4"
@@ -139,10 +139,10 @@
                     <div class="repair-data p-2 rounded-none">{{$repair->part }}</div>
                     <div class="repair-data p-2 rounded-none">{{$repair->kilometers }}</div>
                     <div class="repair-data p-2 rounded-none">{{$repair->work_cost }}</div>
-                    <div class="repair-data p-2 rounded-s-none">{{$repair->part_cost }}<form class="text-[#EF4444] px-2 float-right" method="POST" action="{{ route('repair_destroy', ['id' => $repair->id]) }}">
+                    <div class="repair-data p-2 rounded-s-none">{{$repair->part_cost }}<form class="text-[#EF4444] px-2 float-right delete-repair-form" method="POST" action="{{ route('repair_destroy', ['id' => $repair->id]) }}" data-repair-id="{{ $repair->id }}">
                         @csrf
                         @method('DELETE')
-                        <button onclick="return confirm('Сигурен ли си ?')"><i class="fa-solid fa-trash"></i></button>
+                        <button class="delete-repair-button"><i class="fa-solid fa-trash"></i></button>
                     </form><a href="{{route('edit_repair',[$repair->id, $car->id])}}" class="text-[#ff9800] px-2 float-right"><i class="fa-solid fa-pencil"></i></a></div>
                 @endforeach
             </div>
@@ -156,10 +156,10 @@
                 <div class="grid grid-cols-1 mt-5 md:hidden border mobile-grid-repairs">
                     <div class="grid grid-cols-2 colored-bg p-2">
                         <div class="repair-heading">Кола</div>
-                        <div class="repair-data">{{$selectedCar->brand}}<form class="text-[#EF4444] px-2 float-right" method="POST" action="{{ route('repair_destroy', ['id' => $repair->id]) }}">
+                        <div class="repair-data">{{$selectedCar->brand}}<form class="text-[#EF4444] px-2 float-right delete-repair-form" method="POST" action="{{ route('repair_destroy', ['id' => $repair->id]) }}" data-repair-id="{{ $repair->id }}"">
                             @csrf
                             @method('DELETE')
-                            <button  onclick="return confirm('Сигурен ли си ?')"><i class="fa-solid fa-trash"></i></button>
+                            <button  class="delete-repair-button"><i class="fa-solid fa-trash"></i></button>
                         </form><a href="{{route('edit_repair',[$repair->id, $car->id])}}" class="text-[#ff9800] px-2 float-right"><i class="fa-solid fa-pencil"></i></a></div>
 
                     </div>
@@ -194,6 +194,30 @@
             jQuery(document).ready(function($){
                 var csrf_token = "{{ csrf_token() }}";
                 var clientId = " {{ $client->id }} ";
+                $(document).on('click', '.delete-repair-button', function(event) {
+                    event.preventDefault();
+                    var form = $(this).closest('form'); // Get the closest form element
+                    var repairId = form.data('repair-id'); // Retrieve the repair ID from the form data attribute
+                    
+                    // Display SweetAlert confirmation dialog
+                    Swal.fire({
+                        title: 'Сигурен ли си?',
+                        text: 'Няма да можеш да върнеш този ремонт!',
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonText: 'Да',
+                        cancelButtonText: 'Не',
+                        confirmButtonColor: '#d33',
+                        cancelButtonColor: '#3085d6',
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            // If confirmed, submit the form for repair deletion
+                            form.submit();
+                        }
+                    });
+                });
+
+                
                 $('#carSelect').on('change',function(){
                     let carId = $(this).val();
                     let addRepair = $('#add_repair');
@@ -308,31 +332,7 @@
                                         </div>
                                         <!-- END of show grid only on >768px devices -->
                                 `;
-                                function confirmDelete(repairId) {
-                                    if (confirm('Сигурен ли си ?')) {
-                                        deleteRepair(repairId);
-                                    }
-                                }
-                                // Add this function to handle repair deletion
-                                function deleteRepair(repairId) {
-                                    $.ajax({
-                                        url: '/repair/' + repairId,
-                                        type: 'DELETE',
-                                        data: {
-                                            _token: csrf_token,
-                                        },
-                                        success: function (data) {
-                                            // Handle success, maybe refresh the repair list or do something else
-                                            console.log(data.message);
-
-                                            // Remove the deleted repair element from the page
-                                            $('.repair[data-repair-id="' + repairId + '"]').remove();
-                                        },
-                                        error: function (xhr) {
-                                            console.log('Error: ', xhr);
-                                        },
-                                    }); 
-                                }
+                                
                             
                                 data.repair.forEach(function (repair){
                                     htmlRepair+=`
@@ -397,10 +397,7 @@
                             }
                                 $('#car-repair-container').html(htmlRepair);
                                 
-                                $('.delete-repair-button').on('click', function() {
-                                    var repairId = $(this).closest('form').data('repair-id');
-                                    confirmDelete(repairId);
-                                });  
+                                   
                         },
                         error: function(xhr){
                             console.log('Error: ', xhr);
@@ -408,7 +405,6 @@
                     });
                 });
             });
-
         </script>
     @endpush
 </x-layout>
