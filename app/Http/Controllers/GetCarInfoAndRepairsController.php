@@ -11,7 +11,7 @@ class GetCarInfoAndRepairsController extends Controller
     public function CarInfoAndRepairs(Request $request){
         $carId = $request->selectedCar;
         // $clientId = $request->clientId;
-        $repairId = $request->repairId;
+        // $repairId = $request->repairId;
         
         // Fetch car info
         $car = Car::where('id', $carId)->first();

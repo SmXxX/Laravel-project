@@ -57,11 +57,13 @@ Route::group(['middleware'=>'auth'],function(){
     Route::post('/cars/edit/{id}/{cId}',[CarsController::class,'update']);
     
     //Create new repair (VIEW)
-    Route::get('/repairs/create/{client}', [RepairsController::class,'create'])->name('repairs');
+    // Route::get('/repairs/create/{client}', [RepairsController::class,'create'])->name('repairs');
+    Route::get('/repairs/create/{client}/{car}', [RepairsController::class, 'create'])->name('repairs');
+
 
 
     //Create new client (POST)
-    Route::post('/repairs/create/{client}',[RepairsController::class,'store']);
+    Route::post('/repairs/create/{client}/{car}',[RepairsController::class,'store']);
 
     //Edit repair
     Route::get('/repair/edit/{id}/{repairId}',[RepairsController::class,'edit'])->name('edit_repair');

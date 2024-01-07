@@ -119,7 +119,7 @@
     <h2 class="text-2xl font-bold uppercase text-center m-5">Ремонти</h2>
     <x-card class="mt-4 p-2 lg:space-x-6">
         <div class="text-right">
-            <a href="{{route('repairs',$selectedCar->id)}}" class="text-[#007CCA]" id="add_repair">
+            <a href="{{ route('repairs', ['client' => $client->id, 'car' => $car->id]) }}" class="text-[#007CCA]" id="add_repair">
                 <i class="fa-solid fa-plus"></i> Добавяне на ремонт
             </a>
         </div>
@@ -156,7 +156,7 @@
                 <div class="grid grid-cols-1 mt-5 md:hidden border mobile-grid-repairs">
                     <div class="grid grid-cols-2 colored-bg p-2">
                         <div class="repair-heading">Кола</div>
-                        <div class="repair-data">{{$selectedCar->brand}}<form class="text-[#EF4444] px-2 float-right delete-repair-form" method="POST" action="{{ route('repair_destroy', ['id' => $repair->id]) }}" data-repair-id="{{ $repair->id }}"">
+                        <div class="repair-data">{{$selectedCar->brand}}<form class="text-[#EF4444] px-2 float-right delete-repair-form" method="POST" action="{{ route('repair_destroy', ['id' => $repair->id]) }}" data-repair-id="{{ $repair->id }}">
                             @csrf
                             @method('DELETE')
                             <button  class="delete-repair-button"><i class="fa-solid fa-trash"></i></button>

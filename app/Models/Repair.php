@@ -20,7 +20,7 @@ class Repair extends Model
         'part_cost',
     ];
 
-    //Relationship with client
+    //Relationship with car
     public function car(){
         return $this->belongsTo(Car::class, 'car_id');
     }

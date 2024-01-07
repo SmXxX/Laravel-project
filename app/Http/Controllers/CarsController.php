@@ -64,7 +64,7 @@ class CarsController extends Controller
             'additional_info'=> $request->additional_info,
         ]);
 
-        return redirect('/')->with('message','Колата е добавена успешно!');
+        return redirect('/')->with('message',"Колата е създадена успешно!");
     }
 
     public function edit($id, $cId){
@@ -111,7 +111,7 @@ class CarsController extends Controller
             'vin_num'=>$request->vin_num,
             'additional_info'=>$request->additional_info
         ]);
-        return redirect()->route('single',$cId)->with('message','Колата е редактирана успешно!');
+        return redirect()->route('single',$cId)->with('message',"Колата е редактирана успешно!");
     }
 
     // public function get_carInfo(Request $request){

@@ -61,7 +61,7 @@ class ClientsController extends Controller
             'phone_number'=>$request->phone_number,
         ]);
 
-        return redirect('/')->with('message','Клиентът е създаден успешно!');
+        return redirect('/')->with('message',"Клиента е създаден успешно!");
     }
 
     public function edit($id){
@@ -96,12 +96,12 @@ class ClientsController extends Controller
             'name'=>$request->name,
             'phone_number'=>$request->phone_number,
         ]);
-        return redirect('/')->with('message','Клиентът е редактиран успешно!');
+        return redirect('/')->with('message',"Клиента е редактиран успешно!");
     }
 
     public function destroy($id){
         $client = Client::findOrFail($id);
         $client->delete();
-        return redirect('/')->with('message', 'Клиентът е изтрит успешно!');
+        return redirect('/')->with('message',"Клиента е изтрит успешно!");
     }
 }
