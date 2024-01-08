@@ -23,6 +23,9 @@ use App\Http\Controllers\GetCarInfoAndRepairsController;
 */
 
 Route::group(['middleware'=>'auth'],function(){
+
+    // Route::get('/',[HomeController::class,'dashboard'])->name('dashboard');
+
     //All Clients
     Route::get('/', [ClientsController::class, 'index'])->name('home');
 
@@ -80,10 +83,8 @@ Route::group(['middleware'=>'auth'],function(){
     // Route::post('get-repair-info',[RepairsController::class,'getRepairInfo']);
 
 });
-Route::prefix('adminPanel')->name('adminPanel.')->group(function(){
-    Route::get('/',[AdminController::class,'index'])->name('index');
-});
+
 
 Auth::routes();
+// Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
