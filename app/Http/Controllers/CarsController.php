@@ -113,6 +113,7 @@ class CarsController extends Controller
         ]);
         return redirect()->route('single',$cId)->with('message',"Колата е редактирана успешно!");
     }
+    
 
     // public function get_carInfo(Request $request){
     //     $carId = $request->selectedCar;

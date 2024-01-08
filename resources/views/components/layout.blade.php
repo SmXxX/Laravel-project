@@ -35,7 +35,7 @@
 
     <body class="mb-48" style="font-family:'Sofia Sans',sans-serif">
         <header class="w-full">
-            <nav class="flex justify-between items-center mb-4 mx-2 lg:mx-56">
+            <nav class="flex justify-between items-center mb-4 mx-2 lg:mx-14 2xl:mx-56">
                 <a href="/"><img width="100" height="100" src="/images/logo.jpeg" alt=""
                         class="logo my-2" /></a>
                 <ul class="flex justify-end text-right space-x-6 mr-6 text-lg">
@@ -65,7 +65,7 @@
                 </ul>
             </nav>
         </header>
-        <main class="lg:mx-56">
+        <main class="lg:mx-14 2xl:mx-56">
             {{ $slot }}
         </main>
         <footer class="fixed bottom-0 left-0 w-full flex flex-row items-center justify-center font-bold text-white lg:h-24 mt-24 opacity-90 gap-2 lg:gap-10">

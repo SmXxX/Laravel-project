@@ -58,6 +58,8 @@ Route::group(['middleware'=>'auth'],function(){
     Route::get('/cars/edit/{id}/{cId}',[CarsController::class,'edit'])->name('edit_car');
     
     Route::post('/cars/edit/{id}/{cId}',[CarsController::class,'update']);
+
+    Route::delete('/cars/{id}/{cId}',[CarsController::class,'destroy'])->name('car_destroy');
     
     //Create new repair (VIEW)
     // Route::get('/repairs/create/{client}', [RepairsController::class,'create'])->name('repairs');

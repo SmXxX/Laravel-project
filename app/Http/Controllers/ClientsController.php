@@ -101,6 +101,17 @@ class ClientsController extends Controller
 
     public function destroy($id){
         $client = Client::findOrFail($id);
+
+        // Delete all cars associated with the client
+        $client->cars()->delete();
+
+        // Fetch all repairs associated with the client's cars and delete them
+        $clientCars = $client->cars()->pluck('id');
+        Repair::whereIn('car_id', $clientCars)->delete();
+
+        // Delete the client
+        $client->delete();
+
         $client->delete();
         return redirect('/')->with('message',"Клиента е изтрит успешно!");
     }

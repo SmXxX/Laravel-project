@@ -56,9 +56,9 @@
             </div>
             <div>
                 <div class="flex flex-col" id="car-info">
-                    <div class="flex flex-row lg:justify-between mt-5 md:mt-0">
+                    <div class="flex flex-row justify-between mt-5 xl:mt-0">
                         <h2 class="lg:text-2xl text-center mb-5 text-[#007CCA]">Описание на колата</h2>
-                        <div class="hidden md:block">
+                        <div>
                             <a href="{{route('edit_car',[$selectedCar->id, $client->id])}}" class="text-align-center text-[#ff9800] mb-4 py-2 px-5 underline"><i class="fa-solid fa-pencil"></i> Редактирай кола</a>
                         </div>
                     </div>
@@ -109,9 +109,9 @@
                             </div>
                         </div>
                     </div>
-                    <div class="block mt-5 md:hidden">
+                    {{-- <div class="block mt-5 md:hidden">
                         <a href="{{route('edit_car',[$selectedCar->id, $client->id])}}" class="text-align-center text-[#ff9800] mb-4 py-2 underline"><i class="fa-solid fa-pencil"></i> Редактирай кола</a>
-                    </div>                 
+                    </div>                  --}}
                 </div>
             </div>
         </div>
@@ -267,6 +267,7 @@
                                     <div class="hidden md:block">
                                         <a href="/cars/edit/${data.car.id}/${data.car.client_id}" class="text-align-center text-[#ff9800] mb-4 py-2 px-5 underline"><i class="fa-solid fa-pencil"></i> Редактирай кола</a>
                                     </div>
+                                    
                                 </div>
                                 <div class="overflow-x-auto">
                                     <div class="grid grid-cols-1 gap-4">
@@ -315,6 +316,7 @@
                                 <div class="block mt-5 md:hidden">
                                     <a href="/cars/edit/${data.car.id}/${data.car.client_id}" class="text-align-center text-[#ff9800] mb-4 py-2 underline"><i class="fa-solid fa-pencil"></i> Редактирай кола</a>
                                 </div>
+                                
                             </div>    
                             `;
                             $('#car-info').html(html);
