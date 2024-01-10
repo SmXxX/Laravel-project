@@ -13,9 +13,17 @@
 
                 <select class="mb-4 bg-transparent text-black outline-none text-center" name="client_id" id="client">
                     <option value="">Избери клиент</option>
+                    @if (count($clients) == 1)
+                    @foreach ($clients as $client)
+                    <option class="bg-transparent text-black outline-none text-center"  value="{{$client->id}}" selected>{{$client->name}}</option>
+                    @endforeach
+
+                    @else
+                    
                     @foreach ($clients as $client)
                     <option class="bg-transparent text-black outline-none text-center"  value="{{$client->id}}">{{$client->name}}</option>
                     @endforeach
+                    @endif
                 </select>
                 @error('client_id')
                     <p class="text-red-500 text-xs mt-1">{{$message}}</p>
