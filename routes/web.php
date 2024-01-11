@@ -24,7 +24,11 @@ use App\Http\Controllers\GetCarInfoAndRepairsController;
 
 Route::group(['middleware'=>'auth'],function(){
 
-    // Route::get('/',[HomeController::class,'dashboard'])->name('dashboard');
+    Route::prefix('serviceAdmin')->group(function () {
+        return Route::get('/', [HomeController::class, 'dashboard'])->name('dashboard');
+    });
+
+    // Route::get('/serviceAdmin',[HomeController::class,'dashboard'])->name('dashboard');
 
     //All Clients
     Route::get('/', [ClientsController::class, 'index'])->name('home');
