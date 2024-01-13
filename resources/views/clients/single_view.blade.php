@@ -29,7 +29,7 @@
                     <div class="client-phone my-3">
                         <a href="tel:{{$client->phone_number}}">
                             <p class="heading-phone">
-                                Телефонен номер
+                                Телефонен номерs
                             </p>
                             <div class="text-xl font-bold my-2 underline">{{$client->phone_number}}</div>
                         </a>
