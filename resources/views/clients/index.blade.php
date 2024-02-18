@@ -9,7 +9,7 @@
             </div>
         @endif --}}
         @if(count($clients)==0)
-            <p>Все още нямате клиентии в сервиза.</p>
+            <p>Все още нямате клиенти в сервиза.</p>
         @endif
         @foreach($clients as $client)
             <x-client-card :client="$client"/>
