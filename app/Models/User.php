@@ -43,22 +43,27 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function roles()
+    /**
+     * Get the client record associated with the user.
+     */
+    public function client()
     {
-        return $this->belongsToMany(Role::class);
+        return $this->hasOne(Client::class, 'user_id');
     }
 
-    public function permissions()
+    /**
+     * Check if user is an admin.
+     */
+    public function isAdmin()
     {
-        return $this->belongsToMany(Permission::class);
+        return $this->hasRole('admin');
     }
 
-    // //Relationship with clients
-    // public function clients(){
-    //     return $this->hasMany(Client::class, 'user_id');
-    // }
-    // //Relationship with cars
-    //  public function cars(){
-    //     return $this->hasMany(Car::class, 'user_id');
-    // }
+    /**
+     * Check if user is a client.
+     */
+    public function isClient()
+    {
+        return $this->hasRole('client');
+    }
 }

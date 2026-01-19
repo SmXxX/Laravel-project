@@ -14,7 +14,10 @@ class DatabaseSeeder extends Seeder
      * @return void
      */
     public function run()
-    {  
+    {
+        $this->call([
+            RolesAndPermissionsSeeder::class,
+        ]);
 
         // Client::create([
         //     'klient'=>'Shener',

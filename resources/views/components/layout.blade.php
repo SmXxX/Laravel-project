@@ -68,15 +68,19 @@
         <main class="lg:mx-14 2xl:mx-56">
             {{ $slot }}
         </main>
-        <footer class="fixed bottom-0 left-0 w-full flex flex-row items-center justify-center font-bold text-white lg:h-24 mt-24 opacity-90 gap-2 lg:gap-10">
-            <a href="{{ route('create_client') }}"
-                class="create-new-client text-align-center text-white my-2 lg:my-4 py-2 px-5">
-                Добави нов клиент
-            </a>
-            <a href="{{route('create_car')}}" class="create-new-car text-align-center text-black my-2 lg:my-4 py-2 px-5">
-                Добави нова кола
-            </a>
-        </footer>
+        @auth
+            @if(auth()->user()->hasRole('admin'))
+            <footer class="fixed bottom-0 left-0 w-full flex flex-row items-center justify-center font-bold text-white lg:h-24 mt-24 opacity-90 gap-2 lg:gap-10">
+                <a href="{{ route('admin.clients.create') }}"
+                    class="create-new-client text-align-center text-white my-2 lg:my-4 py-2 px-5">
+                    Добави нов клиент
+                </a>
+                <a href="{{ route('admin.cars.create') }}" class="create-new-car text-align-center text-black my-2 lg:my-4 py-2 px-5">
+                    Добави нова кола
+                </a>
+            </footer>
+            @endif
+        @endauth
         {{-- <x-message/> --}}
         <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
