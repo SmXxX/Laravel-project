@@ -54,12 +54,20 @@
                         <a href="{{ route('admin.repairs.index') }}" class="px-3 py-2 rounded-md text-sm font-medium {{ request()->routeIs('admin.repairs.*') ? 'bg-primary text-white' : 'text-gray-700 hover:bg-gray-100' }}">
                             <i class="fa-solid fa-wrench mr-1"></i> Ремонти
                         </a>
+                        @if(auth()->user()->isSuperAdmin())
+                        <a href="{{ route('admin.users.index') }}" class="px-3 py-2 rounded-md text-sm font-medium {{ request()->routeIs('admin.users.*') ? 'bg-primary text-white' : 'text-gray-700 hover:bg-gray-100' }}">
+                            <i class="fa-solid fa-user-shield mr-1"></i> Админи
+                        </a>
+                        @endif
                     </div>
                 </div>
                 <div class="flex items-center space-x-4">
                     <span class="text-gray-700">
-                        <i class="fa-solid fa-user-shield"></i>
+                        <i class="fa-solid fa-{{ auth()->user()->isSuperAdmin() ? 'crown' : 'user-shield' }}"></i>
                         {{ auth()->user()->name }}
+                        @if(auth()->user()->isSuperAdmin())
+                        <span class="ml-1 text-xs text-yellow-600">(Собственик)</span>
+                        @endif
                     </span>
                     <form method="POST" action="/logout" class="inline">
                         @csrf
@@ -85,6 +93,11 @@
                 <a href="{{ route('admin.repairs.index') }}" class="block px-3 py-2 rounded-md text-base font-medium {{ request()->routeIs('admin.repairs.*') ? 'bg-primary text-white' : 'text-gray-700 hover:bg-gray-100' }}">
                     <i class="fa-solid fa-wrench mr-1"></i> Ремонти
                 </a>
+                @if(auth()->user()->isSuperAdmin())
+                <a href="{{ route('admin.users.index') }}" class="block px-3 py-2 rounded-md text-base font-medium {{ request()->routeIs('admin.users.*') ? 'bg-primary text-white' : 'text-gray-700 hover:bg-gray-100' }}">
+                    <i class="fa-solid fa-user-shield mr-1"></i> Админи
+                </a>
+                @endif
             </div>
         </div>
     </nav>

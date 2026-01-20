@@ -23,9 +23,20 @@ class RolesAndPermissionsSeeder extends Seeder
         Permission::firstOrCreate(['name' => 'manage clients']);
         Permission::firstOrCreate(['name' => 'manage cars']);
         Permission::firstOrCreate(['name' => 'manage repairs']);
+        Permission::firstOrCreate(['name' => 'manage admins']);
         Permission::firstOrCreate(['name' => 'view own repairs']);
 
-        // Create roles and assign permissions
+        // Create Super Admin role (system owner - first user)
+        $superAdminRole = Role::firstOrCreate(['name' => 'super-admin']);
+        $superAdminRole->givePermissionTo([
+            'manage clients',
+            'manage cars',
+            'manage repairs',
+            'manage admins',
+            'view own repairs'
+        ]);
+
+        // Create Admin role (can manage clients, cars, repairs but NOT other admins)
         $adminRole = Role::firstOrCreate(['name' => 'admin']);
         $adminRole->givePermissionTo([
             'manage clients',
@@ -34,13 +45,15 @@ class RolesAndPermissionsSeeder extends Seeder
             'view own repairs'
         ]);
 
+        // Create Client role
         $clientRole = Role::firstOrCreate(['name' => 'client']);
         $clientRole->givePermissionTo(['view own repairs']);
 
-        // Assign admin role to first user (if exists)
+        // Assign super-admin role to first user (system owner)
         $firstUser = User::first();
-        if ($firstUser && !$firstUser->hasRole('admin')) {
-            $firstUser->assignRole('admin');
+        if ($firstUser) {
+            // Remove any existing roles and assign super-admin
+            $firstUser->syncRoles(['super-admin']);
         }
     }
 }

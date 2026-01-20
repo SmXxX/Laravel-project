@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\ClientController as AdminClientController;
 use App\Http\Controllers\Admin\CarController as AdminCarController;
 use App\Http\Controllers\Admin\RepairController as AdminRepairController;
+use App\Http\Controllers\Admin\UserController as AdminUserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,7 +25,7 @@ use App\Http\Controllers\Admin\RepairController as AdminRepairController;
 // Redirect root to appropriate dashboard based on role
 Route::get('/', function () {
     if (auth()->check()) {
-        if (auth()->user()->hasRole('admin')) {
+        if (auth()->user()->isAdmin()) {
             return redirect()->route('admin.dashboard');
         }
         return redirect()->route('client.dashboard');
@@ -67,6 +68,16 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->name('admin.')->group(fun
     Route::get('/repairs/{id}/edit', [AdminRepairController::class, 'edit'])->name('repairs.edit');
     Route::put('/repairs/{id}', [AdminRepairController::class, 'update'])->name('repairs.update');
     Route::delete('/repairs/{id}', [AdminRepairController::class, 'destroy'])->name('repairs.destroy');
+
+    // Admin Users Management (Super Admin only)
+    Route::middleware(['super-admin'])->group(function () {
+        Route::get('/users', [AdminUserController::class, 'index'])->name('users.index');
+        Route::get('/users/create', [AdminUserController::class, 'create'])->name('users.create');
+        Route::post('/users', [AdminUserController::class, 'store'])->name('users.store');
+        Route::get('/users/{id}/edit', [AdminUserController::class, 'edit'])->name('users.edit');
+        Route::put('/users/{id}', [AdminUserController::class, 'update'])->name('users.update');
+        Route::delete('/users/{id}', [AdminUserController::class, 'destroy'])->name('users.destroy');
+    });
 
     // AJAX endpoint for getting cars by client
     Route::get('/api/clients/{clientId}/cars', [AdminRepairController::class, 'getCarsByClient'])->name('api.clients.cars');
